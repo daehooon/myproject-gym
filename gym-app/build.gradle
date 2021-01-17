@@ -1,0 +1,23 @@
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'eclipse'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8';
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13'
+    implementation 'com.google.guava:guava:29.0-jre'
+}
+
+application {
+    mainClass = 'com.cat.gym.App'
+}
