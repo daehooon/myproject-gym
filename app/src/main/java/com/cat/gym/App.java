@@ -45,6 +45,11 @@ public class App {
 
     loop:
       while (true) {
+        System.out.println("<Cat Gym>");
+        System.out.println("명령어");
+        System.out.println("[회원등록] = /member/add [회원정보] = /member/list");
+        System.out.println("[트레이너등록] = /trainer/add [트레이너정보] = /trainer/list");
+        System.out.println("[결제/예약관리] = /pay/add [결제/예약정보] = /pay/list");
         System.out.print("명령> ");
         String command = keyScan.nextLine();
 

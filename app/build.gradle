@@ -5,6 +5,13 @@ plugins {
     id 'eclipse'
 }
 
+eclipse {
+    project {
+        // eclipse .project 파일에 등록할 프로젝트 이름
+        name = "myproject"
+    }
+}
+
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8';
 }
