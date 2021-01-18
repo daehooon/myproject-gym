@@ -4,9 +4,9 @@ import java.sql.Date;
 import java.util.Scanner;
 
 public class App {
-  
+
   static Scanner keyScan = new Scanner(System.in);
-  
+
   // 회원 데이터
   static final int LENGTH = 100;
   static int[] id = new int[LENGTH];
@@ -16,7 +16,7 @@ public class App {
   static String[] password = new String[LENGTH];
   static Date[] apply = new Date[LENGTH];
   static int size = 0;
-  
+
   // 트레이너 데이터
   static final int PLENGTH = 100;
   static String[] bag = new String[PLENGTH];
@@ -27,7 +27,7 @@ public class App {
   static Date[] contractE = new Date[PLENGTH];
   static String[] members = new String[PLENGTH];
   static int psize = 0;
-  
+
   // 결제/예약 데이터
   static final int TLENGTH = 100;
   static int[] select = new int[TLENGTH];
@@ -37,7 +37,7 @@ public class App {
   static String[] history = new String[TLENGTH];
   static Date[] startDate = new Date[TLENGTH];
   static int tsize = 0;
-  
+
   public static void main(String[] args) {
 
     loop:
@@ -59,26 +59,26 @@ public class App {
           case "/member/list":
             listMember();
             break;
-            
+
           case "/trainer/add":
             addTrainer();
             break;
           case "/trainer/list":
             listTrainer();
             break;
-            
+
           case "/pay/add":
             addPay();
             break;
           case "/pay/list":
             listPay();
             break;
-            
+
           case "quit":
           case "exit":
             System.out.println("프로그램을 종료합니다.");
             break loop;
-            
+
           default:
             System.out.println("실행할 수 없는 명령입니다.");
         }
@@ -87,31 +87,20 @@ public class App {
 
     keyScan.close();
   }
-  
+
   // 회원 등록
   static void addMember() {
     System.out.println("[회원등록]");
 
-    System.out.print("회원번호: ");
-    id[size] = Integer.parseInt(keyScan.nextLine());
-
-    System.out.print("이름: ");
-    name[size] = keyScan.nextLine();
-
-    System.out.print("전화번호: ");
-    phoneNumber[size] = keyScan.nextLine();
-
-    System.out.print("주소: ");
-    residence[size] = keyScan.nextLine();
-
-    System.out.print("비밀번호: ");
-    password[size] = keyScan.nextLine();
-
+    id[size] = promptInt("회원번호: ");
+    name[size] = promptString("이름: ");
+    phoneNumber[size] = promptString("전화번호: ");
+    residence[size] = promptString("주소: ");
+    password[size] = promptString("비밀번호: ");
     apply[size] = new java.sql.Date(System.currentTimeMillis());
-
     size++;
   }
-  
+
   // 회원 정보
   static void listMember() {
     System.out.println("[회원정보]");
@@ -121,35 +110,21 @@ public class App {
           id[i], name[i], phoneNumber[i], residence[i], password[i], apply[i]);
     }
   }
-  
+
   // 트레이너 등록
   static void addTrainer() {
     System.out.println("[트레이너등록]");
 
-    System.out.print("전문분야: ");
-    bag[psize] = keyScan.nextLine();
-
-    System.out.print("사진: ");
-    photo[psize] = keyScan.nextLine();
-
-    System.out.print("이름: ");
-    tName[psize] = keyScan.nextLine();
-
-    System.out.print("전화번호: ");
-    tPhone[psize] = keyScan.nextLine();
-
-    System.out.print("계약시작일: ");
-    contractS[psize] = Date.valueOf(keyScan.nextLine());
-
-    System.out.print("계약종료일: ");
-    contractE[psize] = Date.valueOf(keyScan.nextLine());
-
-    System.out.print("팀원: ");
-    members[psize] = keyScan.nextLine();
-
+    bag[psize] = promptString("전문분야: ");
+    photo[psize] = promptString("사진: ");
+    tName[psize] = promptString("이름: ");
+    tPhone[psize] = promptString("전화번호: ");
+    contractS[psize] = promptDate("계약시작일: ");
+    contractE[psize] = promptDate("계약종료일: ");
+    members[psize] = promptString("팀원: ");
     psize++;
   }
-  
+
   // 트레이너 정보
   static void listTrainer() {
     System.out.println("[트레이너정보]");
@@ -160,36 +135,24 @@ public class App {
           bag[i], photo[i], tName[i], tPhone[i], contractS[i], contractE[i], members[i]);
     }
   }
-  
+
   // 결제/예약 관리
   static void addPay() {
     System.out.println("[결제/예약관리]");
 
-    System.out.println("회원권선택");
-    System.out.println("0: 3개월(90,000원)");
-    System.out.println("1: 6개월(150,000원)");
-    System.out.println("2: 1년(240,000원)");
-    System.out.print("> ");
-    select[tsize] = Integer.valueOf(keyScan.nextLine());
-
-    System.out.print("운동복대여: ");
-    rental[tsize] = keyScan.nextLine();
-
-    System.out.print("락커예약: ");
-    locker[tsize] = keyScan.nextLine();
-
-    System.out.print("카드정보: ");
-    card[tsize] = keyScan.nextLine();
-
-    System.out.print("결재내역: ");
-    history[tsize] = keyScan.nextLine();
-
-    System.out.print("시작일: ");
-    startDate[tsize] = Date.valueOf(keyScan.nextLine());
-
+    select[tsize] = promptInt("회원권선택\n"
+        + "0: 3개월(90,000원)\n"
+        + "1: 6개월(150,000원)\n"
+        + "2: 1년(240,000원)\n"
+        + "> ");
+    rental[tsize] = promptString("운동복대여: ");
+    locker[tsize] = promptString("락커예약: ");
+    card[tsize] = promptString("카드정보: ");
+    history[tsize] = promptString("결재내역: ");
+    startDate[tsize] = promptDate("시작일: ");
     tsize++;
   }
-  
+
   // 결제/예약 정보
   static void listPay() {
     System.out.println("[결제/예약정보]");
@@ -211,10 +174,18 @@ public class App {
           selectLabel, rental[i], locker[i], card[i], history[i], startDate[i]);
     }
   }
-  
+
   static String promptString(String title) {
     System.out.print(title);
     return keyScan.nextLine();
   }
-  
+
+  static int promptInt(String title) {
+    return Integer.valueOf(promptString(title));
+  }
+
+  static Date promptDate(String title) {
+    return Date.valueOf(promptString(title));
+  }
+
 }
