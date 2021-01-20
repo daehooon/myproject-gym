@@ -1,5 +1,10 @@
 package com.cat.gym;
 
+import com.cat.gym.handler.MemberHandler;
+import com.cat.gym.handler.PayHandler;
+import com.cat.gym.handler.TrainerHandler;
+import com.cat.util.Prompt;
+
 public class App {
 
   public static void main(String[] args) {
