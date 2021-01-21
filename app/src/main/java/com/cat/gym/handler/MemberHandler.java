@@ -4,12 +4,12 @@ import java.sql.Date;
 import com.cat.util.Prompt;
 
 public class MemberHandler {
-  
+
   static class Member {
-    int id;
     String name;
     String phoneNumber;
     String residence;
+    String id;
     String password;
     Date apply;
   }
@@ -19,15 +19,15 @@ public class MemberHandler {
   static int size = 0;
 
   public static void add() {
-    System.out.println("[회원등록]");
+    System.out.println("[회원 등록]");
     System.out.println();
-    
+
     Member m = new Member();
 
-    m.id = Prompt.inputInt("회원번호: ");
     m.name = Prompt.inputString("이름: ");
     m.phoneNumber = Prompt.inputString("전화번호: ");
     m.residence = Prompt.inputString("주소: ");
+    m.id = Prompt.inputString("아이디: ");
     m.password = Prompt.inputString("비밀번호: ");
     m.apply = new java.sql.Date(System.currentTimeMillis());
     members[size++] = m;
@@ -35,19 +35,28 @@ public class MemberHandler {
   }
 
   public static void list() {
-    System.out.println("[회원정보]");
+    System.out.println("[회원 정보]");
     System.out.println();
     for (int i = 0; i < size; i++) {
       Member m = members[i];
-      System.out.printf("회원번호: %d\n"
-          + "이름: %s\n"
+      System.out.printf("이름: %s\n"
           + "전화번호: %s\n"
           + "주소: %s\n"
+          + "아이디: %s\n"
           + "비밀번호: %s\n"
           + "가입일: %s\n",
-          m.id, m.name, m.phoneNumber, m.residence,
+          m.name, m.phoneNumber, m.residence, m.id,
           m.password, m.apply);
       System.out.println();
     }
+  }
+
+  public static boolean exist(String id) {
+    for(int i = 0; i < size; i++) {
+      if (id.equals(members[i].id)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

@@ -4,8 +4,9 @@ import java.sql.Date;
 import com.cat.util.Prompt;
 
 public class PayHandler {
-  
+
   static class Pay {
+    String id;
     int select;
     String rental;
     String locker;
@@ -19,10 +20,25 @@ public class PayHandler {
   static int tsize = 0;
 
   public static void add() {
-    System.out.println("[결제/예약관리]");
+    System.out.println("[결제/예약 관리]");
     System.out.println();
-    
+
     Pay p = new Pay();
+
+    while (true) {
+      String id = Prompt.inputString("아이디(취소: 빈 문자열): ");
+      if (id.length() == 0) {
+        System.out.println("결제/예약을 취소합니다.");
+        System.out.println();
+        return;
+      } 
+      if (MemberHandler.exist(id)) {
+        p.id = id;
+        break;
+      }
+      System.out.println("등록된 회원이 아닙니다.");
+      System.out.println();
+    }
 
     p.select = Prompt.inputInt("회원권선택\n"
         + "0: 1개월(80,000원)\n"
@@ -40,7 +56,7 @@ public class PayHandler {
   }
 
   public static void list() {
-    System.out.println("[결제/예약정보]");
+    System.out.println("[결제/예약 정보]");
     System.out.println();
 
     for (int i = 0; i < tsize; i++) {
@@ -71,7 +87,7 @@ public class PayHandler {
           p.history, p.startDate);
       System.out.println();
     }
-    
+
   }
-  
+
 }
