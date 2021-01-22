@@ -1,25 +1,16 @@
 package com.cat.gym.handler;
 
-import java.sql.Date;
+import com.cat.gym.domain.Pay;
 import com.cat.util.Prompt;
 
 public class PayHandler {
 
-  static class Pay {
-    String id;
-    int select;
-    String rental;
-    String locker;
-    String card;
-    String history;
-    Date startDate;
-  }
-
   static final int TLENGTH = 100;
-  static Pay[] pays = new Pay[TLENGTH];
-  static int tsize = 0;
+  
+  Pay[] pays = new Pay[TLENGTH];
+  int tsize = 0;
 
-  public static void add() {
+  public void add(MemberHandler memberHandler) {
     System.out.println("[결제/예약 관리]");
     System.out.println();
 
@@ -32,7 +23,7 @@ public class PayHandler {
         System.out.println();
         return;
       } 
-      if (MemberHandler.exist(id)) {
+      if (memberHandler.exist(id)) {
         p.id = id;
         break;
       }
@@ -50,17 +41,17 @@ public class PayHandler {
     p.locker = Prompt.inputString("락커예약: ");
     p.card = Prompt.inputString("카드정보: ");
     p.history = Prompt.inputString("결재내역: ");
-    p.startDate = Prompt.inputDate("시작일: ");
-    pays[tsize++] = p;
+    p.startDate = Prompt.inputDate("시작일(YYYY-MM-DD): ");
+    this.pays[this.tsize++] = p;
     System.out.println();
   }
 
-  public static void list() {
+  public void list() {
     System.out.println("[결제/예약 정보]");
     System.out.println();
 
-    for (int i = 0; i < tsize; i++) {
-      Pay p = pays[i];
+    for (int i = 0; i < this.tsize; i++) {
+      Pay p = this.pays[i];
       String selectLabel = null;
       switch (p.select) {
         case 1:

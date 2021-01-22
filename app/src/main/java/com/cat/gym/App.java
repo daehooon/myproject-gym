@@ -1,8 +1,6 @@
 package com.cat.gym;
 
 import com.cat.gym.handler.BoardHandler;
-import com.cat.gym.handler.BoardHandler2;
-import com.cat.gym.handler.BoardHandler3;
 import com.cat.gym.handler.MemberHandler;
 import com.cat.gym.handler.PayHandler;
 import com.cat.gym.handler.TrainerHandler;
@@ -11,6 +9,16 @@ import com.cat.util.Prompt;
 public class App {
 
   public static void main(String[] args) {
+    
+    MemberHandler memberList = new MemberHandler();
+    
+    TrainerHandler trainerList = new TrainerHandler();
+    
+    PayHandler payList = new PayHandler();
+    
+    BoardHandler boardList = new BoardHandler();
+    BoardHandler boardList2 = new BoardHandler();
+    BoardHandler boardList3 = new BoardHandler();
 
     loop:
       while (true) {
@@ -30,40 +38,40 @@ public class App {
 
         switch (command.toLowerCase()) {
           case "/member/add":
-            MemberHandler.add();
+            memberList.add();
             break;
           case "/member/list":
-            MemberHandler.list();
+            memberList.list();
             break;
           case "/trainer/add":
-            TrainerHandler.add();
+            trainerList.add(memberList);
             break;
           case "/trainer/list":
-            TrainerHandler.list();
+            trainerList.list();
             break;
           case "/pay/add":
-            PayHandler.add();
+            payList.add(memberList);
             break;
           case "/pay/list":
-            PayHandler.list();
+            payList.list();
             break;
           case "/board/add":
-            BoardHandler.add();
+            boardList.add(memberList);
             break;
           case "/board/list":
-            BoardHandler.list();
+            boardList.list();
             break;
           case "/board2/add":
-            BoardHandler2.add();
+            boardList2.add(memberList);
             break;
           case "/board2/list":
-            BoardHandler2.list();
+            boardList2.list();
             break;
           case "/board3/add":
-            BoardHandler3.add();
+            boardList3.add(memberList);
             break;
           case "/board3/list":
-            BoardHandler3.list();
+            boardList3.list();
             break;
           case "quit":
           case "exit":

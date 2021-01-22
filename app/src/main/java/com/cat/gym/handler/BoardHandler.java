@@ -6,10 +6,11 @@ import com.cat.util.Prompt;
 public class BoardHandler {
 
   static final int LENGTH = 100;
-  static Board[] boards = new Board[LENGTH];
-  static int size = 0;
+  
+  Board[] boards = new Board[LENGTH];
+  int size = 0;
 
-  public static void add() {
+  public void add(MemberHandler memberHandler) {
     System.out.println("[게시글 등록]");
     System.out.println();
 
@@ -24,7 +25,7 @@ public class BoardHandler {
         System.out.println();
         return;
       } 
-      if (MemberHandler.exist(id)) {
+      if (memberHandler.exist(id)) {
         b.id = id;
         break;
       }
@@ -35,15 +36,15 @@ public class BoardHandler {
     b.content = Prompt.inputString("내용: ");
     System.out.println();
     System.out.println("게시글을 등록하였습니다.");
-    boards[size++] = b;
+    this.boards[this.size++] = b;
     System.out.println();
   }
 
-  public static void list() {
+  public void list() {
     System.out.println("[게시글 목록]");
     System.out.println();
-    for (int i = 0; i < size; i++) {
-      Board b = boards[i];
+    for (int i = 0; i < this.size; i++) {
+      Board b = this.boards[i];
       System.out.printf("글 번호: %s\n"
           + "제목: %s\n"
           + "작성자: %s\n"

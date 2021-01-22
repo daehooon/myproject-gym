@@ -1,25 +1,16 @@
 package com.cat.gym.handler;
 
-import java.sql.Date;
+import com.cat.gym.domain.Trainer;
 import com.cat.util.Prompt;
 
 public class TrainerHandler {
 
-  static class Trainer {
-    String bag;
-    String photo;
-    String name;
-    String phoneNumber;
-    Date contractS;
-    Date contractE;
-    String members;
-  }
-
   static final int PLENGTH = 100;
-  static Trainer[] trainers = new Trainer[PLENGTH];
-  static int psize = 0;
+  
+  Trainer[] trainers = new Trainer[PLENGTH];
+  int psize = 0;
 
-  public static void add() {
+  public void add(MemberHandler memberHandler) {
     System.out.println("[트레이너 등록]");
     System.out.println();
 
@@ -29,15 +20,15 @@ public class TrainerHandler {
     t.photo = Prompt.inputString("사진: ");
     t.name = Prompt.inputString("이름: ");
     t.phoneNumber = Prompt.inputString("전화번호: ");
-    t.contractS = Prompt.inputDate("계약 시작일: ");
-    t.contractE = Prompt.inputDate("계약 종료일: ");
+    t.contractS = Prompt.inputDate("계약 시작일(YYYY-MM-DD): ");
+    t.contractE = Prompt.inputDate("계약 종료일(YYYY-MM-DD): ");
 
     t.members = "";
     while (true) {
       String name = Prompt.inputString("PT회원 ID등록(완료: 빈 문자열): ");
       if (name.length() == 0) {
         break;
-      } else if (MemberHandler.exist(name)) {
+      } else if (memberHandler.exist(name)) {
         if (!t.members.isEmpty()) {
           t.members += ",";
         }
@@ -48,16 +39,16 @@ public class TrainerHandler {
       }
     }
 
-    trainers[psize++] = t;
+    this.trainers[this.psize++] = t;
     System.out.println();
   }
 
-  public static void list() {
+  public void list() {
     System.out.println("[트레이너 정보]");
     System.out.println();
 
-    for (int i = 0; i < psize; i++) {
-      Trainer t = trainers[i];
+    for (int i = 0; i < this.psize; i++) {
+      Trainer t = this.trainers[i];
       System.out.printf("전문분야: %s\n"
           + "사진: %s\n"
           + "이름: %s\n"
