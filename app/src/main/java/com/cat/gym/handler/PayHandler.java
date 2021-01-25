@@ -6,11 +6,13 @@ import com.cat.util.Prompt;
 public class PayHandler {
 
   static final int TLENGTH = 100;
-  
+
+  public MemberHandler memberList;
+
   Pay[] pays = new Pay[TLENGTH];
   int tsize = 0;
 
-  public void add(MemberHandler memberHandler) {
+  public void add() {
     System.out.println("[결제/예약 관리]");
     System.out.println();
 
@@ -23,7 +25,7 @@ public class PayHandler {
         System.out.println();
         return;
       } 
-      if (memberHandler.exist(id)) {
+      if (this.memberList.exist(id)) {
         p.id = id;
         break;
       }

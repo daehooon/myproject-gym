@@ -6,11 +6,13 @@ import com.cat.util.Prompt;
 public class BoardHandler {
 
   static final int LENGTH = 100;
-  
+
+  public MemberHandler memberList;
+
   Board[] boards = new Board[LENGTH];
   int size = 0;
 
-  public void add(MemberHandler memberHandler) {
+  public void add() {
     System.out.println("[게시글 등록]");
     System.out.println();
 
@@ -25,7 +27,7 @@ public class BoardHandler {
         System.out.println();
         return;
       } 
-      if (memberHandler.exist(id)) {
+      if (this.memberList.exist(id)) {
         b.id = id;
         break;
       }

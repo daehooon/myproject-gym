@@ -9,16 +9,24 @@ import com.cat.util.Prompt;
 public class App {
 
   public static void main(String[] args) {
-    
+
     MemberHandler memberList = new MemberHandler();
-    
+
     TrainerHandler trainerList = new TrainerHandler();
-    
+
+    trainerList.memberList = memberList;
+
     PayHandler payList = new PayHandler();
-    
+
+    payList.memberList = memberList;
+
     BoardHandler boardList = new BoardHandler();
     BoardHandler boardList2 = new BoardHandler();
     BoardHandler boardList3 = new BoardHandler();
+
+    boardList.memberList = memberList;
+    boardList2.memberList = memberList;
+    boardList3.memberList = memberList;
 
     loop:
       while (true) {
@@ -44,31 +52,31 @@ public class App {
             memberList.list();
             break;
           case "/trainer/add":
-            trainerList.add(memberList);
+            trainerList.add();
             break;
           case "/trainer/list":
             trainerList.list();
             break;
           case "/pay/add":
-            payList.add(memberList);
+            payList.add();
             break;
           case "/pay/list":
             payList.list();
             break;
           case "/board/add":
-            boardList.add(memberList);
+            boardList.add();
             break;
           case "/board/list":
             boardList.list();
             break;
           case "/board2/add":
-            boardList2.add(memberList);
+            boardList2.add();
             break;
           case "/board2/list":
             boardList2.list();
             break;
           case "/board3/add":
-            boardList3.add(memberList);
+            boardList3.add();
             break;
           case "/board3/list":
             boardList3.list();

@@ -6,11 +6,13 @@ import com.cat.util.Prompt;
 public class TrainerHandler {
 
   static final int PLENGTH = 100;
-  
+
+  public MemberHandler memberList;
+
   Trainer[] trainers = new Trainer[PLENGTH];
   int psize = 0;
 
-  public void add(MemberHandler memberHandler) {
+  public void add() {
     System.out.println("[트레이너 등록]");
     System.out.println();
 
@@ -28,7 +30,7 @@ public class TrainerHandler {
       String name = Prompt.inputString("PT회원 ID등록(완료: 빈 문자열): ");
       if (name.length() == 0) {
         break;
-      } else if (memberHandler.exist(name)) {
+      } else if (this.memberList.exist(name)) {
         if (!t.members.isEmpty()) {
           t.members += ",";
         }
