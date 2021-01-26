@@ -7,10 +7,14 @@ public class BoardHandler {
 
   static final int LENGTH = 100;
 
-  public MemberHandler memberList;
+  MemberHandler memberList;
 
   Board[] boards = new Board[LENGTH];
   int size = 0;
+  
+  public BoardHandler(MemberHandler memberHandler) {
+    this.memberList = memberHandler;
+  }
 
   public void add() {
     System.out.println("[게시글 등록]");
@@ -23,7 +27,7 @@ public class BoardHandler {
     while (true) {
       String id = Prompt.inputString("아이디(취소: 빈 문자열): ");
       if (id.length() == 0) {
-        System.out.println("결제/예약을 취소합니다.");
+        System.out.println("게시글 등록을 취소합니다.");
         System.out.println();
         return;
       } 

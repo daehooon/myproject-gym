@@ -7,10 +7,14 @@ public class TrainerHandler {
 
   static final int PLENGTH = 100;
 
-  public MemberHandler memberList;
+  MemberHandler memberList;
 
   Trainer[] trainers = new Trainer[PLENGTH];
   int psize = 0;
+  
+  public TrainerHandler(MemberHandler memberHandler) {
+    this.memberList = memberHandler;
+  }
 
   public void add() {
     System.out.println("[트레이너 등록]");

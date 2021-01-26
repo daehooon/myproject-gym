@@ -12,21 +12,13 @@ public class App {
 
     MemberHandler memberList = new MemberHandler();
 
-    TrainerHandler trainerList = new TrainerHandler();
+    TrainerHandler trainerList = new TrainerHandler(memberList);
 
-    trainerList.memberList = memberList;
+    PayHandler payList = new PayHandler(memberList);
 
-    PayHandler payList = new PayHandler();
-
-    payList.memberList = memberList;
-
-    BoardHandler boardList = new BoardHandler();
-    BoardHandler boardList2 = new BoardHandler();
-    BoardHandler boardList3 = new BoardHandler();
-
-    boardList.memberList = memberList;
-    boardList2.memberList = memberList;
-    boardList3.memberList = memberList;
+    BoardHandler boardList = new BoardHandler(memberList);
+    BoardHandler boardList2 = new BoardHandler(memberList);
+    BoardHandler boardList3 = new BoardHandler(memberList);
 
     loop:
       while (true) {

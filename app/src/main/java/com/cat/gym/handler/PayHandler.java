@@ -7,11 +7,15 @@ public class PayHandler {
 
   static final int TLENGTH = 100;
 
-  public MemberHandler memberList;
+  MemberHandler memberList;
 
   Pay[] pays = new Pay[TLENGTH];
   int tsize = 0;
 
+  public PayHandler(MemberHandler memberHandler) {
+    this.memberList = memberHandler;
+  }
+  
   public void add() {
     System.out.println("[결제/예약 관리]");
     System.out.println();
@@ -33,16 +37,17 @@ public class PayHandler {
       System.out.println();
     }
 
-    p.select = Prompt.inputInt("회원권선택\n"
+    p.select = Prompt.inputInt("회원권 선택\n"
         + "0: 1개월(80,000원)\n"
         + "1: 3개월(90,000원)\n"
         + "2: 6개월(150,000원)\n"
         + "3: 1년(240,000원)\n"
         + "> ");
-    p.rental = Prompt.inputString("운동복대여: ");
-    p.locker = Prompt.inputString("락커예약: ");
-    p.card = Prompt.inputString("카드정보: ");
-    p.history = Prompt.inputString("결재내역: ");
+    p.join = Prompt.inputString("신규 회원 - 가입비 33,000원(O/X): ");
+    p.rental = Prompt.inputString("운동복 대여 - 월 1만원(O/X): ");
+    p.locker = Prompt.inputString("락커 예약 - 월 1만원(O/X): ");
+    p.card = Prompt.inputString("카드 정보: ");
+    p.history = Prompt.inputString("결재 내역: ");
     p.startDate = Prompt.inputDate("시작일(YYYY-MM-DD): ");
     this.pays[this.tsize++] = p;
     System.out.println();
@@ -70,13 +75,14 @@ public class PayHandler {
           break;
       }
 
-      System.out.printf("회원권선택: %s\n"
-          + "운동복대여: %s\n"
-          + "락커예약: %s\n"
-          + "카드정보: %s\n"
-          + "결제내역: %s\n"
+      System.out.printf("회원권 선택: %s\n"
+          + "신규 회원: %s\n"
+          + "운동복 대여: %s\n"
+          + "락커 예약: %s\n"
+          + "카드 정보: %s\n"
+          + "결제 내역: %s\n"
           + "시작일: %s\n",
-          selectLabel, p.rental, p.locker, p.card,
+          selectLabel, p.rental, p.join, p.locker, p.card,
           p.history, p.startDate);
       System.out.println();
     }
