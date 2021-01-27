@@ -26,10 +26,11 @@ public class App {
             + "득                                     < Cat Gym >                                     근\n"
             + "=========================================================================================\n"
             + "|---------------------------------------------------------------------------------------|\n"
-            + "|[회원 등록] = /member/add  [트레이너 등록] = /trainer/add  [결제/예약 관리] = /pay/add |\n"
-            + "|[회원 정보] = /member/list [트레이너 정보] = /trainer/list [결제/예약 정보] = /pay/list|\n"
+            + "|[회원 등록(정보)] = /member/add (list)       [게시글 등록(목록)] = /board/add (list)   |\n"
+            + "|[트레이너 등록(정보)] = /trainer/add (list)  [임시 게시판] = board2, board3            |\n"
+            + "|[결제/예약 관리(정보)] = /pay/add (list)                                               |\n"
             + "|---------------------------------------------------------------------------------------|\n"
-            + "|[게시글 등록] = /board/add [게시글 목록] = /board/list [임시 게시판] = board2, board3  |\n"
+            + "|[게시글 상세보기(변경)(삭제)] = /board/detail (update)(delete) ...미완성               |\n"
             + "|---------------------------------------------------------------------------------------|\n"
             + "|[프로그램종료] = exit                                                                  |\n"
             + "|---------------------------------------------------------------------------------------|\n"
@@ -60,6 +61,15 @@ public class App {
             break;
           case "/board/list":
             boardList.list();
+            break;
+          case "/board/detail":
+            boardList.detail();
+            break;
+          case "/board/update":
+            boardList.update();
+            break;
+          case "/board/delete":
+            boardList.delete();
             break;
           case "/board2/add":
             boardList2.add();

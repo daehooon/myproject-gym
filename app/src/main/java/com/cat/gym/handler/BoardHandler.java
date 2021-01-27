@@ -11,7 +11,7 @@ public class BoardHandler {
 
   Board[] boards = new Board[LENGTH];
   int size = 0;
-  
+
   public BoardHandler(MemberHandler memberHandler) {
     this.memberList = memberHandler;
   }
@@ -62,5 +62,17 @@ public class BoardHandler {
           b.viewCount, b.content, b.like);
       System.out.println();
     }
+  }
+
+  public void detail() {
+
+  }
+
+  public void update() {
+
+  }
+
+  public void delete() {
+
   }
 }
