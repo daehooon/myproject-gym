@@ -45,9 +45,9 @@ public class PayHandler {
         + "> ");
     p.join = Prompt.inputString("신규 회원 - 가입비 33,000원(O/X): ");
     p.rental = Prompt.inputString("운동복 대여 - 월 1만원(O/X): ");
-    p.locker = Prompt.inputString("락커 예약 - 월 1만원(O/X): ");
-    p.card = Prompt.inputString("카드 정보: ");
-    p.history = Prompt.inputString("결재 내역: ");
+    p.locker = Prompt.inputString("개인 락커 예약 - 월 1만원(O/X): ");
+//    p.card = Prompt.inputString("카드 정보: ");
+//    p.history = Prompt.inputString("결재 내역: ");
     p.startDate = Prompt.inputDate("시작일(YYYY-MM-DD): ");
     this.pays[this.tsize++] = p;
     System.out.println();
@@ -75,14 +75,15 @@ public class PayHandler {
           break;
       }
 
-      System.out.printf("회원권 선택: %s\n"
+      System.out.printf("아이디: %s\n"
+          + "회원권 선택: %s\n"
           + "신규 회원: %s\n"
           + "운동복 대여: %s\n"
-          + "락커 예약: %s\n"
+          + "개인 락커 예약: %s\n"
           + "카드 정보: %s\n"
           + "결제 내역: %s\n"
           + "시작일: %s\n",
-          selectLabel, p.rental, p.join, p.locker, p.card,
+          p.id, selectLabel, p.rental, p.join, p.locker, p.card,
           p.history, p.startDate);
       System.out.println();
     }
