@@ -65,7 +65,7 @@ public class BoardHandler {
   }
 
   public void detail() {
-
+    System.out.println("[게시글 상세보기]");
   }
 
   public void update() {

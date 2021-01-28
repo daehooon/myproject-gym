@@ -17,8 +17,6 @@ public class App {
     PayHandler payList = new PayHandler(memberList);
 
     BoardHandler boardList = new BoardHandler(memberList);
-    BoardHandler boardList2 = new BoardHandler(memberList);
-    BoardHandler boardList3 = new BoardHandler(memberList);
 
     loop:
       while (true) {
@@ -26,10 +24,10 @@ public class App {
             + "=========================================================================================\n"
             + "|                                     < Cat Gym >                                       |\n"
             + "|---------------------------------------------------------------------------------------|\n"
-            + "|[회원 등록(정보)] = /member/add (list)       [게시글 등록(목록)] = /board/add (list)   |\n"
-            + "|[트레이너 등록(정보)] = /trainer/add (list)  [임시 게시판] = board2, board3            |\n"
+            + "|[회원 등록(정보)] = /member/add (list)     [트레이너 등록(정보)] = /trainer/add (list) |\n"
             + "|[결제/예약 관리(정보)] = /pay/add (list)                                               |\n"
             + "|---------------------------------------------------------------------------------------|\n"
+            + "|[게시글 등록(목록)] = /board/add (list)                                                |\n"
             + "|[게시글 상세보기(변경)(삭제)] = /board/detail (update)(delete) ...미완성               |\n"
             + "|---------------------------------------------------------------------------------------|\n"
             + "|[프로그램종료] = exit                                                                  |\n"
@@ -71,23 +69,9 @@ public class App {
           case "/board/delete":
             boardList.delete();
             break;
-          case "/board2/add":
-            boardList2.add();
-            break;
-          case "/board2/list":
-            boardList2.list();
-            break;
-          case "/board3/add":
-            boardList3.add();
-            break;
-          case "/board3/list":
-            boardList3.list();
-            break;
-          case "quit":
           case "exit":
             System.out.println("프로그램을 종료합니다.");
             break loop;
-
           default:
             System.out.println("실행할 수 없는 명령입니다.");
         }
