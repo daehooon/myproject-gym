@@ -24,11 +24,9 @@ public class App {
             + "=========================================================================================\n"
             + "|                                     < Cat Gym >                                       |\n"
             + "|---------------------------------------------------------------------------------------|\n"
-            + "|[회원 등록(정보)] = /member/add (list)     [트레이너 등록(정보)] = /trainer/add (list) |\n"
-            + "|[결제/예약 관리(정보)] = /pay/add (list)                                               |\n"
+            + "|[회원 등록] = m1 [회원 정보] = m2            [트레이너 등록] = t1 [트레이너 정보] = t2 |\n"
             + "|---------------------------------------------------------------------------------------|\n"
-            + "|[게시글 등록(목록)] = /board/add (list)                                                |\n"
-            + "|[게시글 상세보기(변경)(삭제)] = /board/detail (update)(delete) ...미완성               |\n"
+            + "|[결제/예약 관리] = p1 [결제/예약 정보] = p2  [게시글 등록] = b1 [게시글 목록] = b2     |\n"
             + "|---------------------------------------------------------------------------------------|\n"
             + "|[프로그램종료] = exit                                                                  |\n"
             + "|---------------------------------------------------------------------------------------|\n"
@@ -36,38 +34,29 @@ public class App {
         System.out.println();
 
         switch (command.toLowerCase()) {
-          case "/member/add":
+          case "m1":
             memberList.add();
             break;
-          case "/member/list":
+          case "m2":
             memberList.list();
             break;
-          case "/trainer/add":
+          case "t1":
             trainerList.add();
             break;
-          case "/trainer/list":
+          case "t2":
             trainerList.list();
             break;
-          case "/pay/add":
+          case "p1":
             payList.add();
             break;
-          case "/pay/list":
+          case "p2":
             payList.list();
             break;
-          case "/board/add":
+          case "b1":
             boardList.add();
             break;
-          case "/board/list":
+          case "b2":
             boardList.list();
-            break;
-          case "/board/detail":
-            boardList.detail();
-            break;
-          case "/board/update":
-            boardList.update();
-            break;
-          case "/board/delete":
-            boardList.delete();
             break;
           case "exit":
             System.out.println("프로그램을 종료합니다.");
