@@ -1,8 +1,6 @@
 package com.cat.gym.handler;
 
-import java.sql.Date;
 import com.cat.gym.domain.Board;
-import com.cat.gym.domain.Trainer;
 import com.cat.util.Prompt;
 
 public class BoardHandler {
@@ -13,6 +11,45 @@ public class BoardHandler {
 
   Board[] boards = new Board[LENGTH];
   int size = 0;
+
+  public void service() {
+    loop:
+      while (true) {
+        String command = Prompt.inputString(""
+            + "=========================================================================\n"
+            + "|                              < 게시판 >              /board/...       |\n"
+            + "|-----------------------------------------------------------------------|\n"
+            + "|[등록] = /add     [목록] = /list   [보기] = /detail  [수정] = /update  |\n"
+            + "|-----------------------------------------------------------------------|\n"
+            + "|[삭제] = /delete  [홈 화면] = home                                     |\n"
+            + "|-----------------------------------------------------------------------|\n"
+            + "\n명령어> ");
+        System.out.println();
+
+        switch (command.toLowerCase()) {
+          case "/add":
+            this.add();
+            break;
+          case "/list":
+            this.list();
+            break;
+          case "/detail":
+            this.detail();
+            break;
+          case "/update":
+            this.update();
+            break;
+          case "/delete":
+            this.delete();
+            break;
+          case "home":
+            break loop;
+          default:
+            System.out.println("실행할 수 없는 명령어입니다.");
+            System.out.println();
+        }
+      }
+  }
 
   public BoardHandler(MemberHandler memberHandler) {
     this.memberList = memberHandler;
@@ -61,17 +98,17 @@ public class BoardHandler {
   }
 
   public void detail() {
-    System.out.println("[게시글 정보]");
+    System.out.println("[게시글 보기]");
     System.out.println();
-    
+
     int no = Prompt.inputInt("글 번호: ");
-    
+
     Board board = findByNo(no);
     if (board == null) {
       System.out.println("해당 번호의 게시글이 없습니다.");
       return;
     }
-    
+
     board.viewCount++;
     System.out.printf("제목: %s\n", board.title);
     System.out.printf("내용: %s\n", board.content);
@@ -85,48 +122,69 @@ public class BoardHandler {
   public void update() {
     System.out.println("[게시글 수정]");
     System.out.println();
-    
+
     int no = Prompt.inputInt("글 번호: ");
     System.out.println();
-    
+
     Board board = findByNo(no);
     if (board == null) {
       System.out.println("해당 번호의 게시글이 없습니다.");
       System.out.println();
       return;
     }
-    
-    String bag = Prompt.inputString(String.format("전문 분야(%s): ", trainer.bag));
-    String photo = Prompt.inputString(String.format("사진(%s): ", trainer.photo));
-    String name = Prompt.inputString(String.format("이름(%s): ", trainer.name));
-    String phoneNumber = Prompt.inputString(String.format("전화번호(%s): ", trainer.phoneNumber));
-    Date contractE = Prompt.inputDate(String.format("계약 종료일(%s): ", trainer.contractE));
-    String members = Prompt.inputString(String.format("PT회원 ID목록[%s]: ", trainer.members));
-    
+
+    String title = Prompt.inputString(String.format("제목(%s): ", board.title));
+    String content = Prompt.inputString(String.format("내용(%s): ", board.content));
+
+
     System.out.println();
     String input = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
     System.out.println();
-    
+
     if (input.equalsIgnoreCase("Y")) {
-      trainer.bag = bag;
-      trainer.photo = photo;
-      trainer.name = name;
-      trainer.phoneNumber = phoneNumber;
-      trainer.contractE = contractE;
-      trainer.members = members;
-      System.out.println("정보를 변경하였습니다.");
+      board.title = title;
+      board.content = content;
+      System.out.println("게시글을 수정하였습니다.");
       System.out.println();
-      
+
     } else {
-      System.out.println("정보 변경을 취소하였습니다.");
+      System.out.println("게시글 수정을 취소하였습니다.");
       System.out.println();
     }
   }
 
   public void delete() {
+    System.out.println("[게시글 삭제]");
+    System.out.println();
 
+    int no = Prompt.inputInt("글 번호: ");
+    System.out.println();
+
+    int i = indexOf(no);
+    if (i == -1) {
+      System.out.println("해당 번호의 글이 없습니다.");
+      System.out.println();
+      return;
+    }
+
+    String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) ");
+    System.out.println();
+
+    if (input.equalsIgnoreCase("Y")) {
+      for (int x = i + 1; x < this.size; x++) {
+        this.boards[x-1] = this.boards[x];
+      }
+      boards[--this.size] = null; 
+
+      System.out.println("게시글을 삭제하였습니다.");
+      System.out.println();
+
+    } else {
+      System.out.println("게시글 삭제를 취소하였습니다.");
+      System.out.println();
+    }
   }
-  
+
   int indexOf(int boardNo) {
     for (int i = 0; i < this.size; i++) {
       Board board = this.boards[i];
@@ -136,7 +194,7 @@ public class BoardHandler {
     }
     return -1;
   }
-  
+
   Board findByNo(int boardNo) {
     int i = indexOf(boardNo);
     if (i == -1)
@@ -144,5 +202,5 @@ public class BoardHandler {
     else
       return this.boards[i];
   }
-  
+
 }
