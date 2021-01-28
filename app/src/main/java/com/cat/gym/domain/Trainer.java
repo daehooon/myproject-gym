@@ -3,6 +3,7 @@ package com.cat.gym.domain;
 import java.sql.Date;
 
 public class Trainer {
+  public int no;
   public String bag;
   public String photo;
   public String name;

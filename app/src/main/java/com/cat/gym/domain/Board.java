@@ -3,7 +3,7 @@ package com.cat.gym.domain;
 import java.sql.Date;
 
 public class Board {
-  public int number;
+  public int no;
   public String title;
   public String id;
   public Date registeredDate;

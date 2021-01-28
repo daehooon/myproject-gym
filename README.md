@@ -1,5 +1,12 @@
 Cat Gym 수정 예정 목록(#)
 
+## BoardHandler, PayHandler 수정 - 210128
+
+# 1. CRUD 기능 생성
+# 2. 중복값 거르기
+# 3. 트레이너 update PT회원 여러명 입력 기능 구현
+# 4. int, java.sql.Date 잘못 입력시 꺼지는거 방지 기능 구현
+
 [회원 등록], [회원 정보]
 이름
 전화번호

@@ -10,59 +10,48 @@ public class App {
 
   public static void main(String[] args) {
 
-    MemberHandler memberList = new MemberHandler();
+    MemberHandler memberHandler = new MemberHandler();
 
-    TrainerHandler trainerList = new TrainerHandler(memberList);
+    TrainerHandler trainerHandler = new TrainerHandler(memberHandler);
 
-    PayHandler payList = new PayHandler(memberList);
+    PayHandler payHandler = new PayHandler(memberHandler);
 
-    BoardHandler boardList = new BoardHandler(memberList);
+    BoardHandler boardHandler = new BoardHandler(memberHandler);
 
     loop:
       while (true) {
         String command = Prompt.inputString(""
-            + "=========================================================================================\n"
-            + "|                                     < Cat Gym >                                       |\n"
-            + "|---------------------------------------------------------------------------------------|\n"
-            + "|[회원 등록] = m1 [회원 정보] = m2            [트레이너 등록] = t1 [트레이너 정보] = t2 |\n"
-            + "|---------------------------------------------------------------------------------------|\n"
-            + "|[결제/예약 관리] = p1 [결제/예약 정보] = p2  [게시글 등록] = b1 [게시글 목록] = b2     |\n"
-            + "|---------------------------------------------------------------------------------------|\n"
-            + "|[프로그램종료] = exit                                                                  |\n"
-            + "|---------------------------------------------------------------------------------------|\n"
-            + "\n명령> ");
+            + "=========================================================================\n"
+            + "|                              ▶ Cat Gym ◀                              |\n"
+            + "|-----------------------------------------------------------------------|\n"
+            + "|[회원 메뉴] = /member [결제/예약 메뉴] = /pay [게시글 메뉴] = /board   |\n"
+            + "|-----------------------------------------------------------------------|\n"
+            + "|[트레이너 메뉴] = /trainer                                             |\n"
+            + "|-----------------------------------------------------------------------|\n"
+            + "|[프로그램 종료] = exit                                                 |\n"
+            + "|-----------------------------------------------------------------------|\n"
+            + "\n명령어> ");
         System.out.println();
 
         switch (command.toLowerCase()) {
-          case "m1":
-            memberList.add();
+          case "/member":
+            memberHandler.service();
             break;
-          case "m2":
-            memberList.list();
+          case "/pay":
+            //payHandler.service();
             break;
-          case "t1":
-            trainerList.add();
+          case "/board":
+            boardHandler.service();
             break;
-          case "t2":
-            trainerList.list();
-            break;
-          case "p1":
-            payList.add();
-            break;
-          case "p2":
-            payList.list();
-            break;
-          case "b1":
-            boardList.add();
-            break;
-          case "b2":
-            boardList.list();
+          case "/trainer":
+            trainerHandler.service();
             break;
           case "exit":
-            System.out.println("프로그램을 종료합니다.");
+            System.out.println("득근하세요!! Ten Reps!!!");
             break loop;
           default:
-            System.out.println("실행할 수 없는 명령입니다.");
+            System.out.println("실행할 수 없는 명령어입니다.");
+            System.out.println();
         }
       }
 
