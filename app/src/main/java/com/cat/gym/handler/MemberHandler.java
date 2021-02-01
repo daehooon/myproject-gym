@@ -4,11 +4,8 @@ import com.cat.gym.domain.Member;
 import com.cat.util.Prompt;
 
 public class MemberHandler {
-
-  static final int LENGTH = 100;
   
-  Member[] members = new Member[LENGTH];
-  int size = 0;
+  public MemberList memberList = new MemberList();
   
   public void service() {
     loop:
@@ -61,27 +58,23 @@ public class MemberHandler {
     m.id = Prompt.inputString("아이디: ");
     m.password = Prompt.inputString("비밀번호: ");
     m.apply = new java.sql.Date(System.currentTimeMillis());
-    this.members[this.size++] = m;
+    
+    memberList.add(m);
+    
+    System.out.println();
+    System.out.println("Cat Gym 회원이 되신걸 환영합니다!");
     System.out.println();
   }
 
   public void list() {
     System.out.println("[회원 목록]");
     System.out.println();
-    for (int i = 0; i < this.size; i++) {
-      Member m = this.members[i];
+    
+    Member[] members = memberList.toArray();
+    for (Member m : members) {
       System.out.printf("%s %s %s\n", m.name, m.id, m.phoneNumber);
       System.out.println();
     }
-  }
-
-  public boolean exist(String id) {
-    for(int i = 0; i < this.size; i++) {
-      if (id.equals(this.members[i].id)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   public void detail() {
@@ -90,7 +83,7 @@ public class MemberHandler {
     
     String id = Prompt.inputString("아이디: ");
     
-    Member member = findById(id);
+    Member member = memberList.get(id);
     if (member == null) {
       System.out.println();
       System.out.println("해당 아이디의 회원이 없습니다.");
@@ -113,7 +106,7 @@ public class MemberHandler {
     String id2 = Prompt.inputString("아이디 확인: ");
     System.out.println();
     
-    Member member = findById(id2);
+    Member member = memberList.get(id2);
     if (member == null) {
       System.out.println("해당 아이디의 회원이 없습니다.");
       System.out.println();
@@ -152,8 +145,8 @@ public class MemberHandler {
     String id = Prompt.inputString("아이디 확인: ");
     System.out.println();
     
-    int i = indexOf(id);
-    if (i == -1) {
+    Member member = memberList.get(id);
+    if (member == null) {
       System.out.println("해당 아이디의 회원이 없습니다.");
       System.out.println();
       return;
@@ -163,11 +156,7 @@ public class MemberHandler {
     System.out.println();
     
     if (input.equalsIgnoreCase("Y")) {
-      for (int x = i + 1; x < this.size; x++) {
-        this.members[x-1] = this.members[x];
-      }
-      members[--this.size] = null; 
-      
+      memberList.delete(id);
       System.out.println("회원을 탈퇴하였습니다.");
       System.out.println();
       
@@ -176,23 +165,4 @@ public class MemberHandler {
       System.out.println();
     }
   }
-  
-  int indexOf(String memberId) {
-    for (int i = 0; i < this.size; i++) {
-      Member member = this.members[i];
-      if (member.id.equals(memberId)) {
-        return i;
-      }
-    }
-    return -1;
-  }
-  
-  Member findById(String memberId) {
-    int i = indexOf(memberId);
-    if (i == -1)
-      return null;
-    else
-      return this.members[i];
-  }
-  
 }

@@ -6,12 +6,13 @@ import com.cat.util.Prompt;
 
 public class PayHandler {
 
-  static final int TLENGTH = 100;
-
-  MemberHandler memberList;
-
-  Pay[] pays = new Pay[TLENGTH];
-  int size = 0;
+  PayList payList =  new PayList();
+  
+  MemberList memberList;
+  
+  public PayHandler(MemberList memberList) {
+    this.memberList = memberList;
+  }
 
   public void service() {
     loop:
@@ -52,29 +53,17 @@ public class PayHandler {
       }
   }
 
-  public PayHandler(MemberHandler memberHandler) {
-    this.memberList = memberHandler;
-  }
-
   public void add() {
     System.out.println("[결제/예약 신청]");
     System.out.println();
 
     Pay p = new Pay();
-
-    while (true) {
-      String id = Prompt.inputString("아이디(취소: 빈 문자열): ");
-      if (id.length() == 0) {
-        System.out.println("결제/예약을 취소합니다.");
-        System.out.println();
-        return;
-      } 
-      if (this.memberList.exist(id)) {
-        p.id = id;
-        break;
-      }
-      System.out.println("등록된 회원이 아닙니다.");
+    
+    p.id = inputMember("아이디(취소: 빈 문자열): ");
+    if (p.id == null) {
+      System.out.println("결제/예약을 취소합니다.");
       System.out.println();
+      return;
     }
 
     p.select = Prompt.inputInt("회원권 선택\n"
@@ -89,7 +78,9 @@ public class PayHandler {
     //    p.card = Prompt.inputString("카드 정보: ");
     //    p.history = Prompt.inputString("결재 내역: ");
     p.startDate = Prompt.inputDate("시작일(YYYY-MM-DD): ");
-    this.pays[this.size++] = p;
+    payList.add(p);
+    System.out.println();
+    System.out.println("결제/예약이 완료되었습니다.");
     System.out.println();
   }
 
@@ -97,8 +88,8 @@ public class PayHandler {
     System.out.println("[결제/예약 목록]");
     System.out.println();
 
-    for (int i = 0; i < this.size; i++) {
-      Pay p = this.pays[i];
+    Pay[] pays = payList.toArray();
+    for (Pay p : pays) {
       System.out.printf("%s %s %s\n",
           p.id, getSelectLabel(p.select), p.startDate);
       System.out.println();
@@ -108,24 +99,24 @@ public class PayHandler {
   public void detail() {
     System.out.println("[결제/예약 정보]");
     System.out.println();
-
+    
     String id = Prompt.inputString("아이디: ");
-
-    Pay member = findById(id);
-    if (member == null) {
+    
+    Pay pay = payList.get(id);
+    if (pay == null) {
       System.out.println();
       System.out.println("해당 아이디의 회원이 없습니다.");
       System.out.println();
       return;
     }
 
-    System.out.printf("회원권: %s\n", getSelectLabel(member.select));
-    System.out.printf("신규 회원: %s\n", member.join);
-    System.out.printf("운동복 대여: %s\n", member.rental);
-    System.out.printf("개인 락커 예약: %s\n", member.locker);
-    //    System.out.printf("카드 정보: %s\n", member.card);
-    //    System.out.printf("결제 내역: %s\n", member.history);
-    System.out.printf("시작일: %s\n", member.startDate);
+    System.out.printf("회원권: %s\n", getSelectLabel(pay.select));
+    System.out.printf("신규 회원: %s\n", pay.join);
+    System.out.printf("운동복 대여: %s\n", pay.rental);
+    System.out.printf("개인 락커 예약: %s\n", pay.locker);
+    //    System.out.printf("카드 정보: %s\n", pay.card);
+    //    System.out.printf("결제 내역: %s\n", pay.history);
+    System.out.printf("시작일: %s\n", pay.startDate);
     System.out.println();
   }
 
@@ -136,25 +127,25 @@ public class PayHandler {
     String id = Prompt.inputString("아이디 확인: ");
     System.out.println();
 
-    Pay member = findById(id);
-    if (member == null) {
+    Pay pay = payList.get(id);
+    if (pay == null) {
       System.out.println("해당 아이디의 회원이 없습니다.");
       System.out.println();
       return;
     }
 
-    String rental = Prompt.inputString(String.format("운동복 대여(%s): ", member.rental));
-    String locker = Prompt.inputString(String.format("개인 락커 예약(%s): ", member.locker));
-    Date startDate = Prompt.inputDate(String.format("시작일(%s): ", member.startDate));
+    String rental = Prompt.inputString(String.format("운동복 대여(%s): ", pay.rental));
+    String locker = Prompt.inputString(String.format("개인 락커 예약(%s): ", pay.locker));
+    Date startDate = Prompt.inputDate(String.format("시작일(%s): ", pay.startDate));
 
     System.out.println();
     String input = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
     System.out.println();
 
     if (input.equalsIgnoreCase("Y")) {
-      member.rental = rental;
-      member.locker = locker;
-      member.startDate = startDate;
+      pay.rental = rental;
+      pay.locker = locker;
+      pay.startDate = startDate;
       System.out.println("결제/예약을 변경하였습니다.");
       System.out.println();
 
@@ -171,8 +162,8 @@ public class PayHandler {
     String id = Prompt.inputString("아이디 확인: ");
     System.out.println();
 
-    int i = indexOf(id);
-    if (i == -1) {
+    Pay pay = payList.get(id);
+    if (pay == null) {
       System.out.println("해당 아이디의 회원이 없습니다.");
       System.out.println();
       return;
@@ -182,11 +173,7 @@ public class PayHandler {
     System.out.println();
 
     if (input.equalsIgnoreCase("Y")) {
-      for (int x = i + 1; x < this.size; x++) {
-        this.pays[x-1] = this.pays[x];
-      }
-      pays[--this.size] = null; 
-
+      payList.delete(id);
       System.out.println("결제/예약을 취소하였습니다.");
       System.out.println();
 
@@ -195,23 +182,19 @@ public class PayHandler {
       System.out.println();
     }
   }
-
-  int indexOf(String memberId) {
-    for (int i = 0; i < this.size; i++) {
-      Pay member = this.pays[i];
-      if (member.id.equals(memberId)) {
-        return i;
+  
+  String inputMember(String promptTitle) {
+    while (true) {
+      String id = Prompt.inputString(promptTitle);
+      if (id.length() == 0) {
+        return null;
+      } else if (this.memberList.exist(id)) {
+        return id;
+      } else {
+        System.out.println("등록된 회원이 아닙니다.");
+        System.out.println();
       }
     }
-    return -1;
-  }
-
-  Pay findById(String memberId) {
-    int i = indexOf(memberId);
-    if (i == -1)
-      return null;
-    else
-      return this.pays[i];
   }
 
   String getSelectLabel(int select) {

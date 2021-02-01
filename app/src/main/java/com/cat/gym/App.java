@@ -11,12 +11,9 @@ public class App {
   public static void main(String[] args) {
 
     MemberHandler memberHandler = new MemberHandler();
-
-    TrainerHandler trainerHandler = new TrainerHandler(memberHandler);
-
-    PayHandler payHandler = new PayHandler(memberHandler);
-
-    BoardHandler boardHandler = new BoardHandler(memberHandler);
+    TrainerHandler trainerHandler = new TrainerHandler(memberHandler.memberList);
+    PayHandler payHandler = new PayHandler(memberHandler.memberList);
+    BoardHandler boardHandler = new BoardHandler(memberHandler.memberList);
 
     loop:
       while (true) {

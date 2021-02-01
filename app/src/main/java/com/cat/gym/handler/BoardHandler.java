@@ -4,13 +4,14 @@ import com.cat.gym.domain.Board;
 import com.cat.util.Prompt;
 
 public class BoardHandler {
+  
+  BoardList boardList = new BoardList();
 
-  static final int LENGTH = 100;
-
-  MemberHandler memberList;
-
-  Board[] boards = new Board[LENGTH];
-  int size = 0;
+  MemberList memberList;
+  
+  public BoardHandler(MemberList memberList) {
+    this.memberList = memberList;
+  }
 
   public void service() {
     loop:
@@ -51,45 +52,38 @@ public class BoardHandler {
       }
   }
 
-  public BoardHandler(MemberHandler memberHandler) {
-    this.memberList = memberHandler;
-  }
-
   public void add() {
     System.out.println("[게시글 등록]");
     System.out.println();
 
     Board b = new Board();
-
+    
     b.no = Prompt.inputInt("글 번호: ");
     b.title = Prompt.inputString("제목: ");
-    while (true) {
-      String id = Prompt.inputString("아이디(취소: 빈 문자열): ");
-      if (id.length() == 0) {
-        System.out.println("게시글 등록을 취소합니다.");
-        System.out.println();
-        return;
-      } 
-      if (this.memberList.exist(id)) {
-        b.id = id;
-        break;
-      }
-      System.out.println("등록된 회원이 아닙니다.");
+    
+    b.id = inputMember("아이디(취소: 빈 문자열): ");
+    if (b.id == null) {
+      System.out.println("게시글 등록을 취소합니다.");
       System.out.println();
+      return;
     }
+    
     b.registeredDate = new java.sql.Date(System.currentTimeMillis());
     b.content = Prompt.inputString("내용: ");
+    
+    boardList.add(b);
+    
     System.out.println();
     System.out.println("게시글을 등록하였습니다.");
-    this.boards[this.size++] = b;
     System.out.println();
   }
 
   public void list() {
     System.out.println("[게시글 목록]");
     System.out.println();
-    for (int i = 0; i < this.size; i++) {
-      Board b = this.boards[i];
+    
+    Board[] boards = boardList.toArray();
+    for (Board b : boards) {
       System.out.printf("%d %s %s %s %d\n",
           b.no, b.title, b.id,
           b.viewCount, b.like);
@@ -103,7 +97,7 @@ public class BoardHandler {
 
     int no = Prompt.inputInt("글 번호: ");
 
-    Board board = findByNo(no);
+    Board board = boardList.get(no);
     if (board == null) {
       System.out.println("해당 번호의 게시글이 없습니다.");
       return;
@@ -126,7 +120,7 @@ public class BoardHandler {
     int no = Prompt.inputInt("글 번호: ");
     System.out.println();
 
-    Board board = findByNo(no);
+    Board board = boardList.get(no);
     if (board == null) {
       System.out.println("해당 번호의 게시글이 없습니다.");
       System.out.println();
@@ -160,8 +154,8 @@ public class BoardHandler {
     int no = Prompt.inputInt("글 번호: ");
     System.out.println();
 
-    int i = indexOf(no);
-    if (i == -1) {
+    Board board = boardList.get(no);
+    if (board == null) {
       System.out.println("해당 번호의 글이 없습니다.");
       System.out.println();
       return;
@@ -171,11 +165,7 @@ public class BoardHandler {
     System.out.println();
 
     if (input.equalsIgnoreCase("Y")) {
-      for (int x = i + 1; x < this.size; x++) {
-        this.boards[x-1] = this.boards[x];
-      }
-      boards[--this.size] = null; 
-
+      boardList.delete(no);
       System.out.println("게시글을 삭제하였습니다.");
       System.out.println();
 
@@ -184,23 +174,18 @@ public class BoardHandler {
       System.out.println();
     }
   }
-
-  int indexOf(int boardNo) {
-    for (int i = 0; i < this.size; i++) {
-      Board board = this.boards[i];
-      if (board.no == boardNo) {
-        return i;
+  
+  String inputMember(String promptTitle) {
+    while (true) {
+      String id = Prompt.inputString(promptTitle);
+      if (id.length() == 0) {
+        return null;
+      } else if (this.memberList.exist(id)) {
+        return id;
+      } else {
+        System.out.println("등록된 회원이 아닙니다.");
+        System.out.println();
       }
     }
-    return -1;
   }
-
-  Board findByNo(int boardNo) {
-    int i = indexOf(boardNo);
-    if (i == -1)
-      return null;
-    else
-      return this.boards[i];
-  }
-
 }
