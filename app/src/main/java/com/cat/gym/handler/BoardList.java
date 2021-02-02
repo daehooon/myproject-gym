@@ -3,12 +3,12 @@ package com.cat.gym.handler;
 import com.cat.gym.domain.Board;
 
 public class BoardList {
-  
-  Node first;
-  Node last;
-  int size = 0;
-  
-  void add(Board b) {
+
+  private Node first;
+  private Node last;
+  private int size = 0;
+
+  public void add(Board b) {
     Node node = new Node(b);
 
     if (last == null) {
@@ -22,8 +22,8 @@ public class BoardList {
 
     size++;
   }
-  
-  Board[] toArray() {
+
+  public Board[] toArray() {
     Board[] arr = new Board[size];
 
     Node cursor = this.first;
@@ -35,23 +35,23 @@ public class BoardList {
     }
     return arr;
   }
-  
-  Board get(int boardNo) {
+
+  public Board get(int boardNo) {
     Node cursor = first;
     while (cursor != null) {
       Board b = cursor.board;
-      if (b.no == boardNo) {
+      if (b.getNo() == boardNo) {
         return b;
       }
       cursor = cursor.next;
     }
     return null;
   }
-  
-  void delete(int boardNo) {
+
+  public void delete(int boardNo) {
     Node cursor = first;
     while (cursor != null) {
-      if (cursor.board.no == boardNo) {
+      if (cursor.board.getNo() == boardNo) {
         this.size--;
         if (first == last) {
           first = last = null;
@@ -75,7 +75,7 @@ public class BoardList {
       cursor = cursor.next;
     }
   }
-  
+
   static class Node {
     Board board;
     Node next;

@@ -3,12 +3,12 @@ package com.cat.gym.handler;
 import com.cat.gym.domain.Member;
 
 public class MemberList {
-  
-  Node first;
-  Node last;
-  int size = 0;
-  
-  void add(Member m) {
+
+  private Node first;
+  private Node last;
+  private int size = 0;
+
+  public void add(Member m) {
     Node node = new Node(m);
 
     if (last == null) {
@@ -22,8 +22,8 @@ public class MemberList {
 
     size++;
   }
-  
-  Member[] toArray() {
+
+  public Member[] toArray() {
     Member[] arr = new Member[size];
 
     Node cursor = this.first;
@@ -35,23 +35,23 @@ public class MemberList {
     }
     return arr;
   }
-  
-  Member get(String memberId) {
+
+  public Member get(String memberId) {
     Node cursor = first;
     while (cursor != null) {
       Member m = cursor.member;
-      if (m.id.equals(memberId)) {
+      if (m.getId().equals(memberId)) {
         return m;
       }
       cursor = cursor.next;
     }
     return null;
   }
-  
-  void delete(String memberId) {
+
+  public void delete(String memberId) {
     Node cursor = first;
     while (cursor != null) {
-      if (cursor.member.id.equals(memberId)) {
+      if (cursor.member.getId().equals(memberId)) {
         this.size--;
         if (first == last) {
           first = last = null;
@@ -75,19 +75,19 @@ public class MemberList {
       cursor = cursor.next;
     }
   }
-  
+
   public boolean exist(String id) {
     Node cursor = first;
     while (cursor != null) {
       Member m = cursor.member;
-      if (m.id.equals(id)) {
+      if (m.getId().equals(id)) {
         return true;
       }
       cursor = cursor.next;
     }
     return false;
   }
-  
+
   static class Node {
     Member member;
     Node next;

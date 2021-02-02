@@ -3,12 +3,12 @@ package com.cat.gym.handler;
 import com.cat.gym.domain.Trainer;
 
 public class TrainerList {
-  
-  Node first;
-  Node last;
-  int size = 0;
-  
-  void add(Trainer t) {
+
+  private Node first;
+  private Node last;
+  private int size = 0;
+
+  public void add(Trainer t) {
     Node node = new Node(t);
 
     if (last == null) {
@@ -22,8 +22,8 @@ public class TrainerList {
 
     size++;
   }
-  
-  Trainer[] toArray() {
+
+  public Trainer[] toArray() {
     Trainer[] arr = new Trainer[size];
 
     Node cursor = this.first;
@@ -35,23 +35,23 @@ public class TrainerList {
     }
     return arr;
   }
-  
-  Trainer get(int trainerNo) {
+
+  public Trainer get(int trainerNo) {
     Node cursor = first;
     while (cursor != null) {
       Trainer t = cursor.trainer;
-      if (t.no == trainerNo) {
+      if (t.getNo() == trainerNo) {
         return t;
       }
       cursor = cursor.next;
     }
     return null;
   }
-  
-  void delete(int trainerNo) {
+
+  public void delete(int trainerNo) {
     Node cursor = first;
     while (cursor != null) {
-      if (cursor.trainer.no == trainerNo) {
+      if (cursor.trainer.getNo() == trainerNo) {
         this.size--;
         if (first == last) {
           first = last = null;
@@ -75,7 +75,7 @@ public class TrainerList {
       cursor = cursor.next;
     }
   }
-  
+
   static class Node {
     Trainer trainer;
     Node next;

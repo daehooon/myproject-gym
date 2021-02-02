@@ -3,12 +3,12 @@ package com.cat.gym.handler;
 import com.cat.gym.domain.Pay;
 
 public class PayList {
-  
-  Node first;
-  Node last;
-  int size = 0;
-  
-  void add(Pay p) {
+
+  private Node first;
+  private Node last;
+  private int size = 0;
+
+  public void add(Pay p) {
     Node node = new Node(p);
 
     if (last == null) {
@@ -22,8 +22,8 @@ public class PayList {
 
     size++;
   }
-  
-  Pay[] toArray() {
+
+  public Pay[] toArray() {
     Pay[] arr = new Pay[size];
 
     Node cursor = this.first;
@@ -35,23 +35,23 @@ public class PayList {
     }
     return arr;
   }
-  
-  Pay get(String payId) {
+
+  public Pay get(String payId) {
     Node cursor = first;
     while (cursor != null) {
       Pay p = cursor.pay;
-      if (p.id == payId) {
+      if (p.getId() == payId) {
         return p;
       }
       cursor = cursor.next;
     }
     return null;
   }
-  
-  void delete(String payId) {
+
+  public void delete(String payId) {
     Node cursor = first;
     while (cursor != null) {
-      if (cursor.pay.id.equals(payId)) {
+      if (cursor.pay.getId().equals(payId)) {
         this.size--;
         if (first == last) {
           first = last = null;
@@ -75,7 +75,7 @@ public class PayList {
       cursor = cursor.next;
     }
   }
-  
+
   static class Node {
     Pay pay;
     Node next;

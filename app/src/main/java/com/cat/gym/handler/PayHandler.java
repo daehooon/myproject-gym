@@ -6,12 +6,12 @@ import com.cat.util.Prompt;
 
 public class PayHandler {
 
-  PayList payList =  new PayList();
-  
-  MemberList memberList;
-  
-  public PayHandler(MemberList memberList) {
-    this.memberList = memberList;
+  private PayList payList =  new PayList();
+
+  private MemberHandler memberHandler;
+
+  public PayHandler(MemberHandler memberHandler) {
+    this.memberHandler = memberHandler;
   }
 
   public void service() {
@@ -58,26 +58,26 @@ public class PayHandler {
     System.out.println();
 
     Pay p = new Pay();
-    
-    p.id = inputMember("아이디(취소: 빈 문자열): ");
-    if (p.id == null) {
+
+    p.setId(memberHandler.inputMember("아이디(취소: 빈 문자열): "));
+    if (p.getId() == null) {
       System.out.println("결제/예약을 취소합니다.");
       System.out.println();
       return;
     }
 
-    p.select = Prompt.inputInt("회원권 선택\n"
+    p.setSelect(Prompt.inputInt("회원권 선택\n"
         + "0: 1개월(80,000원)\n"
         + "1: 3개월(90,000원)\n"
         + "2: 6개월(150,000원)\n"
         + "3: 1년(240,000원)\n"
-        + "> ");
-    p.join = Prompt.inputString("신규 회원 - 가입비 33,000원(O/X): ");
-    p.rental = Prompt.inputString("운동복 대여 - 월 1만원(O/X): ");
-    p.locker = Prompt.inputString("개인 락커 예약 - 월 1만원(O/X): ");
-    //    p.card = Prompt.inputString("카드 정보: ");
-    //    p.history = Prompt.inputString("결재 내역: ");
-    p.startDate = Prompt.inputDate("시작일(YYYY-MM-DD): ");
+        + "> "));
+    p.setJoin(Prompt.inputString("신규 회원 - 가입비 33,000원(O/X): "));
+    p.setRental(Prompt.inputString("운동복 대여 - 월 1만원(O/X): "));
+    p.setLocker(Prompt.inputString("개인 락커 예약 - 월 1만원(O/X): "));
+    //    p.setCard(Prompt.inputString("카드 정보: "));
+    //    p.setHistory(Prompt.inputString("결재 내역: "));
+    p.setStartDate(Prompt.inputDate("시작일(YYYY-MM-DD): "));
     payList.add(p);
     System.out.println();
     System.out.println("결제/예약이 완료되었습니다.");
@@ -91,7 +91,7 @@ public class PayHandler {
     Pay[] pays = payList.toArray();
     for (Pay p : pays) {
       System.out.printf("%s %s %s\n",
-          p.id, getSelectLabel(p.select), p.startDate);
+          p.getId(), getSelectLabel(p.getSelect()), p.getStartDate());
       System.out.println();
     }
   }
@@ -99,9 +99,9 @@ public class PayHandler {
   public void detail() {
     System.out.println("[결제/예약 정보]");
     System.out.println();
-    
+
     String id = Prompt.inputString("아이디: ");
-    
+
     Pay pay = payList.get(id);
     if (pay == null) {
       System.out.println();
@@ -110,13 +110,13 @@ public class PayHandler {
       return;
     }
 
-    System.out.printf("회원권: %s\n", getSelectLabel(pay.select));
-    System.out.printf("신규 회원: %s\n", pay.join);
-    System.out.printf("운동복 대여: %s\n", pay.rental);
-    System.out.printf("개인 락커 예약: %s\n", pay.locker);
-    //    System.out.printf("카드 정보: %s\n", pay.card);
-    //    System.out.printf("결제 내역: %s\n", pay.history);
-    System.out.printf("시작일: %s\n", pay.startDate);
+    System.out.printf("회원권: %s\n", getSelectLabel(pay.getSelect()));
+    System.out.printf("신규 회원: %s\n", pay.getJoin());
+    System.out.printf("운동복 대여: %s\n", pay.getRental());
+    System.out.printf("개인 락커 예약: %s\n", pay.getLocker());
+    //    System.out.printf("카드 정보: %s\n", pay.getCard());
+    //    System.out.printf("결제 내역: %s\n", pay.getHistory());
+    System.out.printf("시작일: %s\n", pay.getStartDate());
     System.out.println();
   }
 
@@ -134,18 +134,18 @@ public class PayHandler {
       return;
     }
 
-    String rental = Prompt.inputString(String.format("운동복 대여(%s): ", pay.rental));
-    String locker = Prompt.inputString(String.format("개인 락커 예약(%s): ", pay.locker));
-    Date startDate = Prompt.inputDate(String.format("시작일(%s): ", pay.startDate));
+    String rental = Prompt.inputString(String.format("운동복 대여(%s): ", pay.getRental()));
+    String locker = Prompt.inputString(String.format("개인 락커 예약(%s): ", pay.getLocker()));
+    Date startDate = Prompt.inputDate(String.format("시작일(%s): ", pay.getStartDate()));
 
     System.out.println();
     String input = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
     System.out.println();
 
     if (input.equalsIgnoreCase("Y")) {
-      pay.rental = rental;
-      pay.locker = locker;
-      pay.startDate = startDate;
+      pay.setRental(rental);
+      pay.setLocker(locker);
+      pay.setStartDate(startDate);
       System.out.println("결제/예약을 변경하였습니다.");
       System.out.println();
 
@@ -180,20 +180,6 @@ public class PayHandler {
     } else {
       System.out.println("결제/예약 취소가 진행되지 않았습니다.");
       System.out.println();
-    }
-  }
-  
-  String inputMember(String promptTitle) {
-    while (true) {
-      String id = Prompt.inputString(promptTitle);
-      if (id.length() == 0) {
-        return null;
-      } else if (this.memberList.exist(id)) {
-        return id;
-      } else {
-        System.out.println("등록된 회원이 아닙니다.");
-        System.out.println();
-      }
     }
   }
 

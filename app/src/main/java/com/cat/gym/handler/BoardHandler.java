@@ -4,13 +4,13 @@ import com.cat.gym.domain.Board;
 import com.cat.util.Prompt;
 
 public class BoardHandler {
-  
-  BoardList boardList = new BoardList();
 
-  MemberList memberList;
-  
-  public BoardHandler(MemberList memberList) {
-    this.memberList = memberList;
+  private BoardList boardList = new BoardList();
+
+  private MemberHandler memberHandler;
+
+  public BoardHandler(MemberHandler memberHandler) {
+    this.memberHandler = memberHandler;
   }
 
   public void service() {
@@ -57,22 +57,22 @@ public class BoardHandler {
     System.out.println();
 
     Board b = new Board();
-    
-    b.no = Prompt.inputInt("글 번호: ");
-    b.title = Prompt.inputString("제목: ");
-    
-    b.id = inputMember("아이디(취소: 빈 문자열): ");
-    if (b.id == null) {
+
+    b.setNo(Prompt.inputInt("글 번호: "));
+    b.setTitle(Prompt.inputString("제목: "));
+
+    b.setId(memberHandler.inputMember("아이디(취소: 빈 문자열): "));
+    if (b.getId() == null) {
       System.out.println("게시글 등록을 취소합니다.");
       System.out.println();
       return;
     }
-    
-    b.registeredDate = new java.sql.Date(System.currentTimeMillis());
-    b.content = Prompt.inputString("내용: ");
-    
+
+    b.setRegisteredDate(new java.sql.Date(System.currentTimeMillis()));
+    b.setContent(Prompt.inputString("내용: "));
+
     boardList.add(b);
-    
+
     System.out.println();
     System.out.println("게시글을 등록하였습니다.");
     System.out.println();
@@ -81,12 +81,12 @@ public class BoardHandler {
   public void list() {
     System.out.println("[게시글 목록]");
     System.out.println();
-    
+
     Board[] boards = boardList.toArray();
     for (Board b : boards) {
       System.out.printf("%d %s %s %s %d\n",
-          b.no, b.title, b.id,
-          b.viewCount, b.like);
+          b.getNo(), b.getTitle(), b.getId(),
+          b.getViewCount(), b.getLike());
       System.out.println();
     }
   }
@@ -103,13 +103,13 @@ public class BoardHandler {
       return;
     }
 
-    board.viewCount++;
-    System.out.printf("제목: %s\n", board.title);
-    System.out.printf("내용: %s\n", board.content);
-    System.out.printf("작성자: %s\n", board.id);
-    System.out.printf("작성일: %s\n", board.registeredDate);
-    System.out.printf("조회수: %s\n", board.viewCount);
-    System.out.printf("Like: %s\n", board.like);
+    board.setViewCount(board.getViewCount() + 1);
+    System.out.printf("제목: %s\n", board.getTitle());
+    System.out.printf("내용: %s\n", board.getContent());
+    System.out.printf("작성자: %s\n", board.getId());
+    System.out.printf("작성일: %s\n", board.getRegisteredDate());
+    System.out.printf("조회수: %s\n", board.getViewCount());
+    System.out.printf("Like: %s\n", board.getLike());
     System.out.println();
   }
 
@@ -127,8 +127,8 @@ public class BoardHandler {
       return;
     }
 
-    String title = Prompt.inputString(String.format("제목(%s): ", board.title));
-    String content = Prompt.inputString(String.format("내용(%s): ", board.content));
+    String title = Prompt.inputString(String.format("제목(%s): ", board.getTitle()));
+    String content = Prompt.inputString(String.format("내용(%s): ", board.getContent()));
 
 
     System.out.println();
@@ -136,8 +136,8 @@ public class BoardHandler {
     System.out.println();
 
     if (input.equalsIgnoreCase("Y")) {
-      board.title = title;
-      board.content = content;
+      board.setTitle(title);
+      board.setContent(content);
       System.out.println("게시글을 수정하였습니다.");
       System.out.println();
 
@@ -172,20 +172,6 @@ public class BoardHandler {
     } else {
       System.out.println("게시글 삭제를 취소하였습니다.");
       System.out.println();
-    }
-  }
-  
-  String inputMember(String promptTitle) {
-    while (true) {
-      String id = Prompt.inputString(promptTitle);
-      if (id.length() == 0) {
-        return null;
-      } else if (this.memberList.exist(id)) {
-        return id;
-      } else {
-        System.out.println("등록된 회원이 아닙니다.");
-        System.out.println();
-      }
     }
   }
 }
