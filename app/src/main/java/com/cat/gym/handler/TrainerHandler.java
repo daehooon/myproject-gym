@@ -2,11 +2,12 @@ package com.cat.gym.handler;
 
 import java.sql.Date;
 import com.cat.gym.domain.Trainer;
+import com.cat.util.List;
 import com.cat.util.Prompt;
 
 public class TrainerHandler {
 
-  private TrainerList trainerList = new TrainerList();
+  private List trainerList = new List();
 
   private MemberHandler memberHandler;
 
@@ -63,8 +64,8 @@ public class TrainerHandler {
     t.setPhoto(Prompt.inputString("사진: "));
     t.setName(Prompt.inputString("이름: "));
     t.setPhoneNumber(Prompt.inputString("전화번호: "));
-    t.setContractS(Prompt.inputDate("계약 시작일(YYYY-MM-DD): "));
-    t.setContractE(Prompt.inputDate("계약 종료일(YYYY-MM-DD): "));
+    t.setContractS(Prompt.inputDate("계약 시작일(yyyy-MM-dd): "));
+    t.setContractE(Prompt.inputDate("계약 종료일(yyyy-MM-dd): "));
 
     t.setMembers(memberHandler.inputMembers(
         String.format("PT회원 ID등록(완료: 빈 문자열): ", t.getMembers())));
@@ -80,8 +81,9 @@ public class TrainerHandler {
     System.out.println("[트레이너 목록]");
     System.out.println();
 
-    Trainer[] trainers = trainerList.toArray();
-    for (Trainer t : trainers) {
+    Object[] list = trainerList.toArray();
+    for (Object obj : list) {
+      Trainer t = (Trainer) obj;
       System.out.printf("%d %s %s\n", t.getNo(), t.getName(), t.getPhoneNumber());
       System.out.println();
     }
@@ -93,7 +95,7 @@ public class TrainerHandler {
 
     int no = Prompt.inputInt("등록 번호: ");
 
-    Trainer trainer = trainerList.get(no);
+    Trainer trainer = findByNo(no);
     if (trainer == null) {
       System.out.println("해당 아이디의 회원이 없습니다.");
       System.out.println();
@@ -117,7 +119,7 @@ public class TrainerHandler {
     int no = Prompt.inputInt("등록 번호: ");
     System.out.println();
 
-    Trainer trainer = trainerList.get(no);
+    Trainer trainer = findByNo(no);
     if (trainer == null) {
       System.out.println("해당 번호의 트레이너가 없습니다.");
       System.out.println();
@@ -158,7 +160,7 @@ public class TrainerHandler {
     int no = Prompt.inputInt("등록 번호: ");
     System.out.println();
 
-    Trainer trainer = trainerList.get(no);
+    Trainer trainer = findByNo(no);
     if (trainer == null) {
       System.out.println("해당 번호의 트레이너가 없습니다.");
       System.out.println();
@@ -169,7 +171,7 @@ public class TrainerHandler {
     System.out.println();
 
     if (input.equalsIgnoreCase("Y")) {
-      trainerList.delete(no);
+      trainerList.delete(trainer);
       System.out.println("트레이너를 삭제하였습니다.");
       System.out.println();
 
@@ -177,5 +179,16 @@ public class TrainerHandler {
       System.out.println("트레이너 삭제를 취소하였습니다.");
       System.out.println();
     }
+  }
+  
+  private Trainer findByNo(int trainerNo) {
+    Object[] list = trainerList.toArray();
+    for (Object obj : list) {
+      Trainer t = (Trainer) obj;
+      if (t.getNo() == trainerNo) {
+        return t;
+      }
+    }
+    return null;
   }
 }

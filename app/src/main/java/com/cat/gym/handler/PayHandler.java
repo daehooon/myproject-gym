@@ -2,11 +2,12 @@ package com.cat.gym.handler;
 
 import java.sql.Date;
 import com.cat.gym.domain.Pay;
+import com.cat.util.List;
 import com.cat.util.Prompt;
 
 public class PayHandler {
 
-  private PayList payList =  new PayList();
+  private List payList =  new List();
 
   private MemberHandler memberHandler;
 
@@ -77,7 +78,7 @@ public class PayHandler {
     p.setLocker(Prompt.inputString("개인 락커 예약 - 월 1만원(O/X): "));
     //    p.setCard(Prompt.inputString("카드 정보: "));
     //    p.setHistory(Prompt.inputString("결재 내역: "));
-    p.setStartDate(Prompt.inputDate("시작일(YYYY-MM-DD): "));
+    p.setStartDate(Prompt.inputDate("시작일(yyyy-MM-dd): "));
     payList.add(p);
     System.out.println();
     System.out.println("결제/예약이 완료되었습니다.");
@@ -88,8 +89,9 @@ public class PayHandler {
     System.out.println("[결제/예약 목록]");
     System.out.println();
 
-    Pay[] pays = payList.toArray();
-    for (Pay p : pays) {
+    Object[] list = payList.toArray();
+    for (Object obj : list) {
+      Pay p = (Pay) obj;
       System.out.printf("%s %s %s\n",
           p.getId(), getSelectLabel(p.getSelect()), p.getStartDate());
       System.out.println();
@@ -102,7 +104,7 @@ public class PayHandler {
 
     String id = Prompt.inputString("아이디: ");
 
-    Pay pay = payList.get(id);
+    Pay pay = findById(id);
     if (pay == null) {
       System.out.println();
       System.out.println("해당 아이디의 회원이 없습니다.");
@@ -127,7 +129,7 @@ public class PayHandler {
     String id = Prompt.inputString("아이디 확인: ");
     System.out.println();
 
-    Pay pay = payList.get(id);
+    Pay pay = findById(id);
     if (pay == null) {
       System.out.println("해당 아이디의 회원이 없습니다.");
       System.out.println();
@@ -162,7 +164,7 @@ public class PayHandler {
     String id = Prompt.inputString("아이디 확인: ");
     System.out.println();
 
-    Pay pay = payList.get(id);
+    Pay pay = findById(id);
     if (pay == null) {
       System.out.println("해당 아이디의 회원이 없습니다.");
       System.out.println();
@@ -173,7 +175,7 @@ public class PayHandler {
     System.out.println();
 
     if (input.equalsIgnoreCase("Y")) {
-      payList.delete(id);
+      payList.delete(pay);
       System.out.println("결제/예약을 취소하였습니다.");
       System.out.println();
 
@@ -196,4 +198,14 @@ public class PayHandler {
     }
   }
 
+  private Pay findById(String memberId) {
+    Object[] list = payList.toArray();
+    for (Object obj : list) {
+      Pay p = (Pay) obj;
+      if (p.getId().equals(memberId)) {
+        return p;
+      }
+    }
+    return null;
+  }
 }

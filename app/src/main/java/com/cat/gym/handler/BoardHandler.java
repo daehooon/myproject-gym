@@ -1,11 +1,12 @@
 package com.cat.gym.handler;
 
 import com.cat.gym.domain.Board;
+import com.cat.util.List;
 import com.cat.util.Prompt;
 
 public class BoardHandler {
 
-  private BoardList boardList = new BoardList();
+  private List boardList = new List();
 
   private MemberHandler memberHandler;
 
@@ -82,8 +83,10 @@ public class BoardHandler {
     System.out.println("[게시글 목록]");
     System.out.println();
 
-    Board[] boards = boardList.toArray();
-    for (Board b : boards) {
+    Object[] list = boardList.toArray();
+    
+    for (Object obj : list) {
+      Board b = (Board) obj;
       System.out.printf("%d %s %s %s %d\n",
           b.getNo(), b.getTitle(), b.getId(),
           b.getViewCount(), b.getLike());
@@ -97,7 +100,7 @@ public class BoardHandler {
 
     int no = Prompt.inputInt("글 번호: ");
 
-    Board board = boardList.get(no);
+    Board board = findByNo(no);
     if (board == null) {
       System.out.println("해당 번호의 게시글이 없습니다.");
       return;
@@ -120,7 +123,7 @@ public class BoardHandler {
     int no = Prompt.inputInt("글 번호: ");
     System.out.println();
 
-    Board board = boardList.get(no);
+    Board board = findByNo(no);
     if (board == null) {
       System.out.println("해당 번호의 게시글이 없습니다.");
       System.out.println();
@@ -154,7 +157,7 @@ public class BoardHandler {
     int no = Prompt.inputInt("글 번호: ");
     System.out.println();
 
-    Board board = boardList.get(no);
+    Board board = findByNo(no);
     if (board == null) {
       System.out.println("해당 번호의 글이 없습니다.");
       System.out.println();
@@ -165,7 +168,7 @@ public class BoardHandler {
     System.out.println();
 
     if (input.equalsIgnoreCase("Y")) {
-      boardList.delete(no);
+      boardList.delete(board);
       System.out.println("게시글을 삭제하였습니다.");
       System.out.println();
 
@@ -173,5 +176,16 @@ public class BoardHandler {
       System.out.println("게시글 삭제를 취소하였습니다.");
       System.out.println();
     }
+  }
+  
+  private Board findByNo(int boardNo) {
+    Object[] list = boardList.toArray();
+    for (Object obj : list) {
+      Board b = (Board) obj;
+      if (b.getNo() == boardNo) {
+        return b;
+      }
+    }
+    return null;
   }
 }

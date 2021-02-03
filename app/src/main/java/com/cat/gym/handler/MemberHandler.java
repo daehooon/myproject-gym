@@ -1,13 +1,14 @@
 package com.cat.gym.handler;
 
 import com.cat.gym.domain.Member;
+import com.cat.util.List;
 import com.cat.util.Prompt;
 
 public class MemberHandler {
 
-  private MemberList memberList = new MemberList();
+  private List memberList = new List();
 
-  public MemberList getMemberList() {
+  public List getMemberList() {
     return this.memberList;
   }
 
@@ -74,8 +75,9 @@ public class MemberHandler {
     System.out.println("[회원 목록]");
     System.out.println();
 
-    Member[] members = memberList.toArray();
-    for (Member m : members) {
+    Object[] list = memberList.toArray();
+    for (Object obj : list) {
+      Member m = (Member) obj;
       System.out.printf("%s %s %s\n", m.getName(), m.getId(), m.getPhoneNumber());
       System.out.println();
     }
@@ -87,7 +89,7 @@ public class MemberHandler {
 
     String id = Prompt.inputString("아이디: ");
 
-    Member member = memberList.get(id);
+    Member member = findById(id);
     if (member == null) {
       System.out.println();
       System.out.println("해당 아이디의 회원이 없습니다.");
@@ -107,10 +109,10 @@ public class MemberHandler {
     System.out.println("[회원 정보 변경]");
     System.out.println();
 
-    String id2 = Prompt.inputString("아이디 확인: ");
+    String idC = Prompt.inputString("아이디 확인: ");
     System.out.println();
 
-    Member member = memberList.get(id2);
+    Member member = findById(idC);
     if (member == null) {
       System.out.println("해당 아이디의 회원이 없습니다.");
       System.out.println();
@@ -149,7 +151,7 @@ public class MemberHandler {
     String id = Prompt.inputString("아이디 확인: ");
     System.out.println();
 
-    Member member = memberList.get(id);
+    Member member = findById(id);
     if (member == null) {
       System.out.println("해당 아이디의 회원이 없습니다.");
       System.out.println();
@@ -160,7 +162,7 @@ public class MemberHandler {
     System.out.println();
 
     if (input.equalsIgnoreCase("Y")) {
-      memberList.delete(id);
+      memberList.delete(member);
       System.out.println("회원을 탈퇴하였습니다.");
       System.out.println();
 
@@ -175,12 +177,12 @@ public class MemberHandler {
       String id = Prompt.inputString(promptTitle);
       if (id.length() == 0) {
         return null;
-      } else if (this.memberList.exist(id)) {
-        return id;
-      } else {
-        System.out.println("등록된 회원이 아닙니다.");
-        System.out.println();
       }
+      if (findById(id) != null) {
+        return id;
+      }
+      System.out.println("등록된 회원이 아닙니다.");
+      System.out.println();
     }
   }
 
@@ -197,5 +199,16 @@ public class MemberHandler {
         members += name;
       }
     }
+  }
+  
+  private Member findById(String memberId) {
+    Object[] list = memberList.toArray();
+    for (Object obj : list) {
+      Member m = (Member) obj;
+      if (m.getId().equals(memberId)) {
+        return m;
+      }
+    }
+    return null;
   }
 }
