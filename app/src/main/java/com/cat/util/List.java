@@ -4,7 +4,7 @@ public class List {
 
   private Node first;
   private Node last;
-  private int size = 0;
+  protected int size = 0;
 
   public void add(Object obj) {
     Node node = new Node(obj);
@@ -38,7 +38,7 @@ public class List {
     if (index < 0 || index >= this.size) {
       return null;
     }
-    
+
     int count = 0;
     Node cursor = first;
     while (cursor != null) {
@@ -49,7 +49,7 @@ public class List {
     }
     return null;
   }
-  
+
   public boolean delete(Object obj) {
     Node cursor = first;
     while (cursor != null) {
@@ -82,12 +82,13 @@ public class List {
     if (index < 0 || index >= this.size) {
       return null;
     }
-    
+
     Object deleted = null;
     int count = 0;
     Node cursor = first;
     while (cursor != null) {
       if (index == count++) {
+        deleted = cursor.obj;
         this.size--;
         if (first == last) {
           first = last = null;
@@ -105,14 +106,13 @@ public class List {
         if (cursor == last) {
           last = cursor.prev;
         }
-
         break;
       }
       cursor = cursor.next;
     }
     return deleted;
   }
-  
+
   public int indexOf(Object obj) {
     Object[] list = this.toArray();
     for (int i = 0; i < list.length; i++) {
@@ -123,7 +123,11 @@ public class List {
     return -1;
   }
 
-  static class Node {
+  public int size() {
+    return this.size;
+  }
+
+  private static class Node {
     Object obj;
     Node next;
     Node prev;
@@ -131,5 +135,21 @@ public class List {
     Node(Object obj) {
       this.obj = obj;
     }
+  }
+
+  public Iterator iterator() throws CloneNotSupportedException {
+    return new Iterator() {
+      int cursor = 0;
+
+      @Override
+      public boolean hasNext() {
+        return cursor < List.this.size();
+      }
+
+      @Override
+      public Object next() {
+        return List.this.get(cursor++);
+      }
+    };
   }
 }

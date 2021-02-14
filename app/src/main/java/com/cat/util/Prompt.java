@@ -23,5 +23,4 @@ public class Prompt {
   public static void close() {
     keyScan.close();
   }
-
 }

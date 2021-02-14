@@ -1,6 +1,7 @@
 package com.cat.gym.handler;
 
 import com.cat.gym.domain.Member;
+import com.cat.util.Iterator;
 import com.cat.util.List;
 import com.cat.util.Prompt;
 
@@ -12,7 +13,7 @@ public class MemberHandler {
     return this.memberList;
   }
 
-  public void service() {
+  public void service() throws CloneNotSupportedException {
     loop:
       while (true) {
         String command = Prompt.inputString(""
@@ -71,13 +72,14 @@ public class MemberHandler {
     System.out.println();
   }
 
-  public void list() {
+  public void list() throws CloneNotSupportedException {
     System.out.println("[회원 목록]");
     System.out.println();
 
-    Object[] list = memberList.toArray();
-    for (Object obj : list) {
-      Member m = (Member) obj;
+    Iterator iterator = memberList.iterator();
+
+    while (iterator.hasNext()) {
+      Member m = (Member) iterator.next();
       System.out.printf("%s %s %s\n", m.getName(), m.getId(), m.getPhoneNumber());
       System.out.println();
     }
@@ -200,7 +202,7 @@ public class MemberHandler {
       }
     }
   }
-  
+
   private Member findById(String memberId) {
     Object[] list = memberList.toArray();
     for (Object obj : list) {

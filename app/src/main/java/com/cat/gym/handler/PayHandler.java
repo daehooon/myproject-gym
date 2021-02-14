@@ -2,6 +2,7 @@ package com.cat.gym.handler;
 
 import java.sql.Date;
 import com.cat.gym.domain.Pay;
+import com.cat.util.Iterator;
 import com.cat.util.List;
 import com.cat.util.Prompt;
 
@@ -15,7 +16,7 @@ public class PayHandler {
     this.memberHandler = memberHandler;
   }
 
-  public void service() {
+  public void service() throws CloneNotSupportedException {
     loop:
       while (true) {
         String command = Prompt.inputString(""
@@ -85,13 +86,14 @@ public class PayHandler {
     System.out.println();
   }
 
-  public void list() {
+  public void list() throws CloneNotSupportedException {
     System.out.println("[결제/예약 목록]");
     System.out.println();
 
-    Object[] list = payList.toArray();
-    for (Object obj : list) {
-      Pay p = (Pay) obj;
+    Iterator iterator = payList.iterator();
+
+    while (iterator.hasNext()) {
+      Pay p = (Pay) iterator.next();
       System.out.printf("%s %s %s\n",
           p.getId(), getSelectLabel(p.getSelect()), p.getStartDate());
       System.out.println();

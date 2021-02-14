@@ -1,6 +1,7 @@
 package com.cat.gym.handler;
 
 import com.cat.gym.domain.Board;
+import com.cat.util.Iterator;
 import com.cat.util.List;
 import com.cat.util.Prompt;
 
@@ -14,7 +15,7 @@ public class BoardHandler {
     this.memberHandler = memberHandler;
   }
 
-  public void service() {
+  public void service() throws CloneNotSupportedException {
     loop:
       while (true) {
         String command = Prompt.inputString(""
@@ -79,14 +80,14 @@ public class BoardHandler {
     System.out.println();
   }
 
-  public void list() {
+  public void list() throws CloneNotSupportedException {
     System.out.println("[게시글 목록]");
     System.out.println();
 
-    Object[] list = boardList.toArray();
-    
-    for (Object obj : list) {
-      Board b = (Board) obj;
+    Iterator iterator = boardList.iterator();
+
+    while (iterator.hasNext()) {
+      Board b = (Board) iterator.next();
       System.out.printf("%d %s %s %s %d\n",
           b.getNo(), b.getTitle(), b.getId(),
           b.getViewCount(), b.getLike());
@@ -177,7 +178,7 @@ public class BoardHandler {
       System.out.println();
     }
   }
-  
+
   private Board findByNo(int boardNo) {
     Object[] list = boardList.toArray();
     for (Object obj : list) {

@@ -2,6 +2,7 @@ package com.cat.gym.handler;
 
 import java.sql.Date;
 import com.cat.gym.domain.Trainer;
+import com.cat.util.Iterator;
 import com.cat.util.List;
 import com.cat.util.Prompt;
 
@@ -15,7 +16,7 @@ public class TrainerHandler {
     this.memberHandler = memberHandler;
   }
 
-  public void service() {
+  public void service() throws CloneNotSupportedException {
     loop:
       while (true) {
         String command = Prompt.inputString(""
@@ -77,13 +78,14 @@ public class TrainerHandler {
     System.out.println();
   }
 
-  public void list() {
+  public void list() throws CloneNotSupportedException {
     System.out.println("[트레이너 목록]");
     System.out.println();
 
-    Object[] list = trainerList.toArray();
-    for (Object obj : list) {
-      Trainer t = (Trainer) obj;
+    Iterator iterator = trainerList.iterator();
+
+    while (iterator.hasNext()) {
+      Trainer t = (Trainer) iterator.next();
       System.out.printf("%d %s %s\n", t.getNo(), t.getName(), t.getPhoneNumber());
       System.out.println();
     }
@@ -180,7 +182,7 @@ public class TrainerHandler {
       System.out.println();
     }
   }
-  
+
   private Trainer findByNo(int trainerNo) {
     Object[] list = trainerList.toArray();
     for (Object obj : list) {

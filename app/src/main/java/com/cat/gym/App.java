@@ -4,11 +4,17 @@ import com.cat.gym.handler.BoardHandler;
 import com.cat.gym.handler.MemberHandler;
 import com.cat.gym.handler.PayHandler;
 import com.cat.gym.handler.TrainerHandler;
+import com.cat.util.Iterator;
 import com.cat.util.Prompt;
+import com.cat.util.Queue;
+import com.cat.util.Stack;
 
 public class App {
 
-  public static void main(String[] args) {
+  static Stack commandStack = new Stack();
+  static Queue commandQueue = new Queue();
+
+  public static void main(String[] args) throws CloneNotSupportedException {
 
     MemberHandler memberHandler = new MemberHandler();
     TrainerHandler trainerHandler = new TrainerHandler(memberHandler);
@@ -30,6 +36,12 @@ public class App {
             + "\n명령어> ");
         System.out.println();
 
+        if (command.length() == 0)
+          continue;
+
+        commandStack.push(command);
+        commandQueue.offer(command);
+
         switch (command.toLowerCase()) {
           case "/member":
             memberHandler.service();
@@ -43,6 +55,12 @@ public class App {
           case "/trainer":
             trainerHandler.service();
             break;
+          case "history":
+            printCommandHistory(commandStack.iterator());
+            break;
+          case "history2":
+            printCommandHistory(commandQueue.iterator());
+            break;
           case "exit":
             System.out.println("득근하세요!! Ten Reps!!!");
             break loop;
@@ -53,5 +71,18 @@ public class App {
       }
 
     Prompt.close();
+  }
+
+  static void printCommandHistory(Iterator iterator) {
+    int count = 0;
+    while (iterator.hasNext()) {
+      System.out.println(iterator.next());
+      if ((++count % 5) == 0) {
+        String input = Prompt.inputString(": ");
+        if (input.equalsIgnoreCase("q")) {
+          break;
+        }
+      }
+    }
   }
 }
