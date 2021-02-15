@@ -29,7 +29,7 @@ public class App {
             + "|-----------------------------------------------------------------------|\n"
             + "|[회원 메뉴] = /member   [결제/예약 메뉴] = /pay   [게시판] = /board    |\n"
             + "|-----------------------------------------------------------------------|\n"
-            + "|[트레이너 메뉴] = /trainer                                             |\n"
+            + "|[트레이너 메뉴] = /trainer [최근 입력 기록] = /history 또는 /history2  |\n"
             + "|-----------------------------------------------------------------------|\n"
             + "|[프로그램 종료] = exit                                                 |\n"
             + "|-----------------------------------------------------------------------|\n"
@@ -77,8 +77,10 @@ public class App {
     int count = 0;
     while (iterator.hasNext()) {
       System.out.println(iterator.next());
+      System.out.println();
       if ((++count % 5) == 0) {
-        String input = Prompt.inputString(": ");
+        String input = Prompt.inputString("이어보기(enter) / 나가기(q): ");
+        System.out.println();
         if (input.equalsIgnoreCase("q")) {
           break;
         }

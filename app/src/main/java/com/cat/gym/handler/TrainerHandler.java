@@ -133,7 +133,7 @@ public class TrainerHandler {
     String name = Prompt.inputString(String.format("이름(%s): ", trainer.getName()));
     String phoneNumber = Prompt.inputString(String.format("전화번호(%s): ", trainer.getPhoneNumber()));
     Date contractE = Prompt.inputDate(String.format("계약 종료일(%s): ", trainer.getContractE()));
-    String members = Prompt.inputString(String.format("PT회원 ID목록[%s]: ", trainer.getMembers()));
+    String members = memberHandler.inputMembers(String.format("현재 PT회원 ID목록[%s]: ", trainer.getMembers()));
 
     System.out.println();
     String input = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
