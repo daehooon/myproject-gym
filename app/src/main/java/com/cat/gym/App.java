@@ -11,8 +11,8 @@ import com.cat.util.Stack;
 
 public class App {
 
-  static Stack commandStack = new Stack();
-  static Queue commandQueue = new Queue();
+  static Stack<String> commandStack = new Stack<>();
+  static Queue<String> commandQueue = new Queue<>();
 
   public static void main(String[] args) throws CloneNotSupportedException {
 
@@ -29,7 +29,7 @@ public class App {
             + "|-----------------------------------------------------------------------|\n"
             + "|[회원 메뉴] = /member   [결제/예약 메뉴] = /pay   [게시판] = /board    |\n"
             + "|-----------------------------------------------------------------------|\n"
-            + "|[트레이너 메뉴] = /trainer [최근 입력 기록] = /history 또는 /history2  |\n"
+            + "|[트레이너 메뉴] = /trainer [최근 입력 기록] = history 또는 history2    |\n"
             + "|-----------------------------------------------------------------------|\n"
             + "|[프로그램 종료] = exit                                                 |\n"
             + "|-----------------------------------------------------------------------|\n"
@@ -73,7 +73,7 @@ public class App {
     Prompt.close();
   }
 
-  static void printCommandHistory(Iterator iterator) {
+  static void printCommandHistory(Iterator<String> iterator) {
     int count = 0;
     while (iterator.hasNext()) {
       System.out.println(iterator.next());

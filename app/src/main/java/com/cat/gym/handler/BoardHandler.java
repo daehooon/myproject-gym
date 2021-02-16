@@ -7,7 +7,7 @@ import com.cat.util.Prompt;
 
 public class BoardHandler {
 
-  private List boardList = new List();
+  private List<Board> boardList = new List<>();
 
   private MemberHandler memberHandler;
 
@@ -84,10 +84,10 @@ public class BoardHandler {
     System.out.println("[게시글 목록]");
     System.out.println();
 
-    Iterator iterator = boardList.iterator();
+    Iterator<Board> iterator = boardList.iterator();
 
     while (iterator.hasNext()) {
-      Board b = (Board) iterator.next();
+      Board b = iterator.next();
       System.out.printf("%d %s %s %s %d\n",
           b.getNo(), b.getTitle(), b.getId(),
           b.getViewCount(), b.getLike());
@@ -134,7 +134,6 @@ public class BoardHandler {
     String title = Prompt.inputString(String.format("제목(%s): ", board.getTitle()));
     String content = Prompt.inputString(String.format("내용(%s): ", board.getContent()));
 
-
     System.out.println();
     String input = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
     System.out.println();
@@ -180,9 +179,8 @@ public class BoardHandler {
   }
 
   private Board findByNo(int boardNo) {
-    Object[] list = boardList.toArray();
-    for (Object obj : list) {
-      Board b = (Board) obj;
+    Board[] arr = boardList.toArray(new Board[boardList.size()]);
+    for (Board b : arr) {
       if (b.getNo() == boardNo) {
         return b;
       }

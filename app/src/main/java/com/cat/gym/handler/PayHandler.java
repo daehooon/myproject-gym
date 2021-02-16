@@ -8,7 +8,7 @@ import com.cat.util.Prompt;
 
 public class PayHandler {
 
-  private List payList =  new List();
+  private List<Pay> payList =  new List<>();
 
   private MemberHandler memberHandler;
 
@@ -90,10 +90,10 @@ public class PayHandler {
     System.out.println("[결제/예약 목록]");
     System.out.println();
 
-    Iterator iterator = payList.iterator();
+    Iterator<Pay> iterator = payList.iterator();
 
     while (iterator.hasNext()) {
-      Pay p = (Pay) iterator.next();
+      Pay p = iterator.next();
       System.out.printf("%s %s %s\n",
           p.getId(), getSelectLabel(p.getSelect()), p.getStartDate());
       System.out.println();
@@ -201,9 +201,8 @@ public class PayHandler {
   }
 
   private Pay findById(String memberId) {
-    Object[] list = payList.toArray();
-    for (Object obj : list) {
-      Pay p = (Pay) obj;
+    Pay[] arr = payList.toArray(new Pay[payList.size()]);
+    for (Pay p : arr) {
       if (p.getId().equals(memberId)) {
         return p;
       }

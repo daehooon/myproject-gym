@@ -7,9 +7,9 @@ import com.cat.util.Prompt;
 
 public class MemberHandler {
 
-  private List memberList = new List();
+  private List<Member> memberList = new List<>();
 
-  public List getMemberList() {
+  public List<Member> getMemberList() {
     return this.memberList;
   }
 
@@ -58,15 +58,28 @@ public class MemberHandler {
 
     Member m = new Member();
 
-    m.setName(Prompt.inputString("이름: "));
-    m.setPhoneNumber(Prompt.inputString("전화번호: "));
-    m.setResidence(Prompt.inputString("주소: "));
-    m.setId(Prompt.inputString("아이디: "));
-    m.setPassword(Prompt.inputString("비밀번호: "));
-    m.setApply(new java.sql.Date(System.currentTimeMillis()));
-
-    memberList.add(m);
-
+    while (true) {
+      m.setName(Prompt.inputString("이름: "));
+      m.setPhoneNumber(Prompt.inputString("전화번호: "));
+      m.setResidence(Prompt.inputString("주소: "));
+      m.setId(Prompt.inputString("아이디: "));
+      m.setPassword(Prompt.inputString("비밀번호: "));
+      m.setApply(new java.sql.Date(System.currentTimeMillis()));
+      
+      if (m.getName().equals("") || 
+          m.getPhoneNumber().equals("") || 
+          m.getResidence().equals("") || 
+          m.getId().equals("") || 
+          m.getPassword().equals("")) {
+        System.out.println();
+        System.out.println("모든 항목에 정보를 입력해 주세요.");
+        System.out.println();
+        continue;
+      } else {
+        memberList.add(m);
+        break;
+      }
+    }
     System.out.println();
     System.out.println("Cat Gym 회원이 되신걸 환영합니다!");
     System.out.println();
@@ -76,10 +89,10 @@ public class MemberHandler {
     System.out.println("[회원 목록]");
     System.out.println();
 
-    Iterator iterator = memberList.iterator();
+    Iterator<Member> iterator = memberList.iterator();
 
     while (iterator.hasNext()) {
-      Member m = (Member) iterator.next();
+      Member m = iterator.next();
       System.out.printf("%s %s %s\n", m.getName(), m.getId(), m.getPhoneNumber());
       System.out.println();
     }
@@ -204,9 +217,8 @@ public class MemberHandler {
   }
 
   private Member findById(String memberId) {
-    Object[] list = memberList.toArray();
-    for (Object obj : list) {
-      Member m = (Member) obj;
+    Member[] arr = memberList.toArray(new Member[memberList.size()]);
+    for (Member m : arr) {
       if (m.getId().equals(memberId)) {
         return m;
       }

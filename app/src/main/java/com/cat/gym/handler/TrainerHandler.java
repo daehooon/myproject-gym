@@ -8,7 +8,7 @@ import com.cat.util.Prompt;
 
 public class TrainerHandler {
 
-  private List trainerList = new List();
+  private List<Trainer> trainerList = new List<>();
 
   private MemberHandler memberHandler;
 
@@ -82,10 +82,10 @@ public class TrainerHandler {
     System.out.println("[트레이너 목록]");
     System.out.println();
 
-    Iterator iterator = trainerList.iterator();
+    Iterator<Trainer> iterator = trainerList.iterator();
 
     while (iterator.hasNext()) {
-      Trainer t = (Trainer) iterator.next();
+      Trainer t = iterator.next();
       System.out.printf("%d %s %s\n", t.getNo(), t.getName(), t.getPhoneNumber());
       System.out.println();
     }
@@ -184,9 +184,8 @@ public class TrainerHandler {
   }
 
   private Trainer findByNo(int trainerNo) {
-    Object[] list = trainerList.toArray();
-    for (Object obj : list) {
-      Trainer t = (Trainer) obj;
+    Trainer[] arr = trainerList.toArray(new Trainer[trainerList.size()]);
+    for (Trainer t : arr) {
       if (t.getNo() == trainerNo) {
         return t;
       }

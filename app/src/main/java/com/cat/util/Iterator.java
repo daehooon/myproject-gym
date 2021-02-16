@@ -1,6 +1,6 @@
 package com.cat.util;
 
-public interface Iterator {
+public interface Iterator<E> {
   boolean hasNext();
-  Object next();
+  E next();
 }
