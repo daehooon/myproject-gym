@@ -1,17 +1,13 @@
 package com.cat.gym.handler;
 
+import java.util.Iterator;
+import java.util.LinkedList;
 import com.cat.gym.domain.Member;
-import com.cat.util.Iterator;
-import com.cat.util.List;
 import com.cat.util.Prompt;
 
 public class MemberHandler {
 
-  private List<Member> memberList = new List<>();
-
-  public List<Member> getMemberList() {
-    return this.memberList;
-  }
+  private LinkedList<Member> memberList = new LinkedList<>();
 
   public void service() throws CloneNotSupportedException {
     loop:
@@ -27,27 +23,33 @@ public class MemberHandler {
             + "\n명령어> ");
         System.out.println();
 
-        switch (command.toLowerCase()) {
-          case "/add":
-            this.add();
-            break;
-          case "/list":
-            this.list();
-            break;
-          case "/detail":
-            this.detail();
-            break;
-          case "/update":
-            this.update();
-            break;
-          case "/delete":
-            this.delete();
-            break;
-          case "home":
-            break loop;
-          default:
-            System.out.println("실행할 수 없는 명령어입니다.");
-            System.out.println();
+        try {
+          switch (command.toLowerCase()) {
+            case "/add":
+              this.add();
+              break;
+            case "/list":
+              this.list();
+              break;
+            case "/detail":
+              this.detail();
+              break;
+            case "/update":
+              this.update();
+              break;
+            case "/delete":
+              this.delete();
+              break;
+            case "home":
+              break loop;
+            default:
+              System.out.println("실행할 수 없는 명령어입니다.");
+              System.out.println();
+          }
+        } catch (Exception e) {
+          System.out.println("---------------------------------------------------------");
+          System.out.printf("명령어 실행중 오류 발생: %s - %s\n", e.getClass().getName(), e.getMessage());
+          System.out.println("---------------------------------------------------------");
         }
       }
   }
@@ -177,7 +179,7 @@ public class MemberHandler {
     System.out.println();
 
     if (input.equalsIgnoreCase("Y")) {
-      memberList.delete(member);
+      memberList.remove(member);
       System.out.println("회원을 탈퇴하였습니다.");
       System.out.println();
 

@@ -1,14 +1,14 @@
 package com.cat.gym.handler;
 
 import java.sql.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
 import com.cat.gym.domain.Trainer;
-import com.cat.util.Iterator;
-import com.cat.util.List;
 import com.cat.util.Prompt;
 
 public class TrainerHandler {
 
-  private List<Trainer> trainerList = new List<>();
+  private LinkedList<Trainer> trainerList = new LinkedList<>();
 
   private MemberHandler memberHandler;
 
@@ -30,27 +30,33 @@ public class TrainerHandler {
             + "\n명령어> ");
         System.out.println();
 
-        switch (command.toLowerCase()) {
-          case "/add":
-            this.add();
-            break;
-          case "/list":
-            this.list();
-            break;
-          case "/detail":
-            this.detail();
-            break;
-          case "/update":
-            this.update();
-            break;
-          case "/delete":
-            this.delete();
-            break;
-          case "home":
-            break loop;
-          default:
-            System.out.println("실행할 수 없는 명령어입니다.");
-            System.out.println();
+        try {
+          switch (command.toLowerCase()) {
+            case "/add":
+              this.add();
+              break;
+            case "/list":
+              this.list();
+              break;
+            case "/detail":
+              this.detail();
+              break;
+            case "/update":
+              this.update();
+              break;
+            case "/delete":
+              this.delete();
+              break;
+            case "home":
+              break loop;
+            default:
+              System.out.println("실행할 수 없는 명령어입니다.");
+              System.out.println();
+          }
+        } catch (Exception e) {
+          System.out.println("---------------------------------------------------------");
+          System.out.printf("명령어 실행중 오류 발생: %s - %s\n", e.getClass().getName(), e.getMessage());
+          System.out.println("---------------------------------------------------------");
         }
       }
   }
@@ -173,7 +179,7 @@ public class TrainerHandler {
     System.out.println();
 
     if (input.equalsIgnoreCase("Y")) {
-      trainerList.delete(trainer);
+      trainerList.remove(trainer);
       System.out.println("트레이너를 삭제하였습니다.");
       System.out.println();
 

@@ -1,14 +1,14 @@
 package com.cat.gym.handler;
 
 import java.sql.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
 import com.cat.gym.domain.Pay;
-import com.cat.util.Iterator;
-import com.cat.util.List;
 import com.cat.util.Prompt;
 
 public class PayHandler {
 
-  private List<Pay> payList =  new List<>();
+  private LinkedList<Pay> payList =  new LinkedList<>();
 
   private MemberHandler memberHandler;
 
@@ -30,27 +30,33 @@ public class PayHandler {
             + "\n명령어> ");
         System.out.println();
 
-        switch (command.toLowerCase()) {
-          case "/add":
-            this.add();
-            break;
-          case "/list":
-            this.list();
-            break;
-          case "/detail":
-            this.detail();
-            break;
-          case "/update":
-            this.update();
-            break;
-          case "/delete":
-            this.delete();
-            break;
-          case "home":
-            break loop;
-          default:
-            System.out.println("실행할 수 없는 명령어입니다.");
-            System.out.println();
+        try {
+          switch (command.toLowerCase()) {
+            case "/add":
+              this.add();
+              break;
+            case "/list":
+              this.list();
+              break;
+            case "/detail":
+              this.detail();
+              break;
+            case "/update":
+              this.update();
+              break;
+            case "/delete":
+              this.delete();
+              break;
+            case "home":
+              break loop;
+            default:
+              System.out.println("실행할 수 없는 명령어입니다.");
+              System.out.println();
+          }
+        } catch (Exception e) {
+          System.out.println("---------------------------------------------------------");
+          System.out.printf("명령어 실행중 오류 발생: %s - %s\n", e.getClass().getName(), e.getMessage());
+          System.out.println("---------------------------------------------------------");
         }
       }
   }
@@ -177,7 +183,7 @@ public class PayHandler {
     System.out.println();
 
     if (input.equalsIgnoreCase("Y")) {
-      payList.delete(pay);
+      payList.remove(pay);
       System.out.println("결제/예약을 취소하였습니다.");
       System.out.println();
 

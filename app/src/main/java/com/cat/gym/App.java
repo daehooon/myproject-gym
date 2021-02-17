@@ -1,18 +1,18 @@
 package com.cat.gym;
 
+import java.util.ArrayDeque;
+import java.util.Iterator;
+import java.util.LinkedList;
 import com.cat.gym.handler.BoardHandler;
 import com.cat.gym.handler.MemberHandler;
 import com.cat.gym.handler.PayHandler;
 import com.cat.gym.handler.TrainerHandler;
-import com.cat.util.Iterator;
 import com.cat.util.Prompt;
-import com.cat.util.Queue;
-import com.cat.util.Stack;
 
 public class App {
 
-  static Stack<String> commandStack = new Stack<>();
-  static Queue<String> commandQueue = new Queue<>();
+  static ArrayDeque<String> commandStack = new ArrayDeque<>();
+  static LinkedList<String> commandQueue = new LinkedList<>();
 
   public static void main(String[] args) throws CloneNotSupportedException {
 
@@ -67,9 +67,8 @@ public class App {
           default:
             System.out.println("실행할 수 없는 명령어입니다.");
             System.out.println();
-        }
+          }
       }
-
     Prompt.close();
   }
 

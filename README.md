@@ -1,5 +1,4 @@
 # Cat Gym Patch Note
-
 21.02.16
     1. 회원 등록 메뉴에서 사용자가 입력하지 않은 항목이 존재하면
        경고 문구 출력 후 다시 입력하도록 합니다.
@@ -8,10 +7,9 @@
 
 # Cat Gym Patch List
     공백 문자 금지 기능
-        Member - add() 완료
+        Member - update()
 
-    int, java.sql.Date 잘못 입력시 꺼지는거 방지 기능
-    중복값 거르기 기능
+    중복값 거르기 기능 (HashSet)
     카드 정보, 결제 내역 출력 기능
     admin 메뉴 생성
     비밀번호 활용
