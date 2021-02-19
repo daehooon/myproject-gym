@@ -16,10 +16,10 @@ public class TrainerDeleteHandler extends AbstractTrainerHandler {
     System.out.println();
 
     int no = Prompt.inputInt("등록 번호: ");
-    System.out.println();
 
     Trainer trainer = findByNo(no);
     if (trainer == null) {
+      System.out.println();
       System.out.println("해당 번호의 트레이너가 없습니다.");
       System.out.println();
       return;

@@ -16,10 +16,10 @@ public class BoardDeleteHandler extends AbstractBoardHandler {
     System.out.println();
 
     int no = Prompt.inputInt("글 번호: ");
-    System.out.println();
 
     Board board = findByNo(no);
     if (board == null) {
+      System.out.println();
       System.out.println("해당 번호의 글이 없습니다.");
       System.out.println();
       return;

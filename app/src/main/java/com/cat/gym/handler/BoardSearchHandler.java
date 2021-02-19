@@ -17,9 +17,9 @@ public class BoardSearchHandler extends AbstractBoardHandler {
     System.out.println();
 
     String keyword = Prompt.inputString("검색어: ");
-    System.out.println();
 
     if (keyword.length() == 0) {
+      System.out.println();
       System.out.println("다시 입력하세요.");
       System.out.println();
       return;

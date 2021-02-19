@@ -17,10 +17,10 @@ public class PayUpdateHandler extends AbstractPayHandler {
     System.out.println();
 
     String id = Prompt.inputString("아이디 확인: ");
-    System.out.println();
 
     Pay pay = findById(id);
     if (pay == null) {
+      System.out.println();
       System.out.println("해당 아이디의 회원이 없습니다.");
       System.out.println();
       return;

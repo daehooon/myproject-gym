@@ -19,7 +19,8 @@ public class TrainerDetailHandler extends AbstractTrainerHandler {
 
     Trainer trainer = findByNo(no);
     if (trainer == null) {
-      System.out.println("해당 아이디의 회원이 없습니다.");
+      System.out.println();
+      System.out.println("해당 번호의 트레이너가 없습니다.");
       System.out.println();
       return;
     }
