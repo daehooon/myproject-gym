@@ -16,6 +16,7 @@
 
     공백 문자 금지 기능
         pay - add, AbstractPayHandler 수정 요망
+              중복 결제 방지
     중복값 거르기 기능 (HashSet)
 
     게시글 작성시 글 번호 순서대로 자동 저장 기능
