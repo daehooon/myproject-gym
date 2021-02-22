@@ -10,9 +10,13 @@
         1. 회원 정보 변경 메뉴에서 사용자가 입력하지 않은 항목이 존재하면
            경고 문구 출력 후 다시 입력하도록 합니다.
         2... trainer 및 board도 기능 추가
+    
+    21.02.22
+        1. 사용자 인터페이스 보완 (board, pay)
 
 # Cat Gym Patch List
-    사용자 인터페이스 보완
+    1. 사용자 인터페이스 보완...trainer 테스트 미완 (그리고 member남음)
+    2. boardSearch 글 출력 리스트로 변경하기
 
     공백 문자 금지 기능
         pay - add, AbstractPayHandler 수정 요망
