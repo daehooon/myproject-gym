@@ -2,15 +2,15 @@ package com.cat.gym.handler;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import com.cat.gym.domain.Board;
 import com.cat.gym.domain.Member;
 import com.cat.util.Prompt;
 
 public class BoardMenu {
 
-  public static void main(String[] args, LinkedList<Member> memberList) {
+  public static void main(String[] args, LinkedList<Member> memberList, List<Board> boardList) {
 
-    LinkedList<Board> boardList = new LinkedList<>();
     HashMap<String,Command> commandMap = new HashMap<>();
     MemberValidatorHandler memberValidatorHandler = new MemberValidatorHandler(memberList);
 

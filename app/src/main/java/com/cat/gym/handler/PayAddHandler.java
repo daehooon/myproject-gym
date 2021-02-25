@@ -36,6 +36,7 @@ public class PayAddHandler extends AbstractPayHandler {
           + "2: 6개월(150,000원)\n"
           + "3: 1년(240,000원)\n"
           + "> "));
+
       p.setJoin(Prompt.inputString("신규 회원 - 가입비 33,000원(O/X): "));
       p.setRental(Prompt.inputString("운동복 대여 - 월 1만원(O/X): "));
       p.setLocker(Prompt.inputString("개인 락커 예약 - 월 1만원(O/X): "));

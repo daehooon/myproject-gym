@@ -1,34 +1,31 @@
 package com.cat.gym.handler;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import com.cat.gym.domain.Member;
-import com.cat.gym.domain.Trainer;
 import com.cat.util.Prompt;
 
-public class TrainerMenu {
+public class MemberMenu {
 
-  public static void main(String[] args, LinkedList<Member> memberList, List<Trainer> trainerList) {
+  public static void main(String[] args, List<Member> memberList) throws CloneNotSupportedException {
 
     HashMap<String,Command> commandMap = new HashMap<>();
-    MemberValidatorHandler memberValidatorHandler = new MemberValidatorHandler(memberList);
 
-    commandMap.put("/add", new TrainerAddHandler(trainerList, memberValidatorHandler));
-    commandMap.put("/list", new TrainerListHandler(trainerList));
-    commandMap.put("/detail", new TrainerDetailHandler(trainerList));
-    commandMap.put("/update", new TrainerUpdateHandler(trainerList, memberValidatorHandler));
-    commandMap.put("/delete", new TrainerDeleteHandler(trainerList));
+    commandMap.put("/add", new MemberAddHandler(memberList));
+    commandMap.put("/list", new MemberListHandler(memberList));
+    commandMap.put("/detail", new MemberDetailHandler(memberList));
+    commandMap.put("/update", new MemberUpdateHandler(memberList));
+    commandMap.put("/delete", new MemberDeleteHandler(memberList));
 
     loop:
       while (true) {
         String command = Prompt.inputString(""
             + "=========================================================================\n"
-            + "|                            < 트레이너 메뉴 >        /trainer/...      |\n"
+            + "|                             < 회원 메뉴 >        /member/...          |\n"
             + "|-----------------------------------------------------------------------|\n"
             + "|[등록] = /add     [목록] = /list   [정보] = /detail  [변경] = /update  |\n"
             + "|-----------------------------------------------------------------------|\n"
-            + "|[삭제] = /delete  [홈 화면] = home                                     |\n"
+            + "|[탈퇴] = /delete  [홈 화면] = home                                     |\n"
             + "|-----------------------------------------------------------------------|\n"
             + "\n명령어> ");
         System.out.println();
@@ -53,6 +50,7 @@ public class TrainerMenu {
           System.out.println("---------------------------------------------------------");
         }
       }
-  }
 
+  }
 }
+

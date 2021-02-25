@@ -45,14 +45,9 @@ public class BoardSearchHandler extends AbstractBoardHandler {
     }
 
     for (Board b : list) {
-      b.setViewCount(b.getViewCount() + 1);
-      System.out.printf("글 번호: %d\n", b.getNo());
-      System.out.printf("제목: %s\n", b.getTitle());
-      System.out.printf("내용: %s\n", b.getContent());
-      System.out.printf("작성자: %s\n", b.getId());
-      System.out.printf("작성일: %s\n", b.getRegisteredDate());
-      System.out.printf("조회수: %s\n", b.getViewCount());
-      System.out.printf("Like: %s\n", b.getLike());
+      System.out.printf("%d %s %s %s %d\n",
+          b.getNo(), b.getTitle(), b.getId(),
+          b.getViewCount(), b.getLike());
       System.out.println();
     }
   }

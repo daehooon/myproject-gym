@@ -1,17 +1,14 @@
 package com.cat.gym;
 
 import java.util.ArrayDeque;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import com.cat.gym.domain.Board;
 import com.cat.gym.domain.Member;
+import com.cat.gym.domain.Pay;
+import com.cat.gym.domain.Trainer;
 import com.cat.gym.handler.BoardMenu;
-import com.cat.gym.handler.Command;
-import com.cat.gym.handler.MemberAddHandler;
-import com.cat.gym.handler.MemberDeleteHandler;
-import com.cat.gym.handler.MemberDetailHandler;
-import com.cat.gym.handler.MemberListHandler;
-import com.cat.gym.handler.MemberUpdateHandler;
+import com.cat.gym.handler.MemberMenu;
 import com.cat.gym.handler.PayMenu;
 import com.cat.gym.handler.TrainerMenu;
 import com.cat.util.Prompt;
@@ -24,14 +21,9 @@ public class App {
   public static void main(String[] args) throws CloneNotSupportedException {
 
     LinkedList<Member> memberList = new LinkedList<>();
-
-    HashMap<String,Command> commandMap = new HashMap<>();
-
-    commandMap.put("/member/add", new MemberAddHandler(memberList));
-    commandMap.put("/member/list", new MemberListHandler(memberList));
-    commandMap.put("/member/detail", new MemberDetailHandler(memberList));
-    commandMap.put("/member/update", new MemberUpdateHandler(memberList));
-    commandMap.put("/member/delete", new MemberDeleteHandler(memberList));
+    LinkedList<Pay> payList = new LinkedList<>();
+    LinkedList<Board> boardList = new LinkedList<>();
+    LinkedList<Trainer> trainerList = new LinkedList<>();
 
     loop:
       while (true) {
@@ -56,14 +48,17 @@ public class App {
 
         try {
           switch (command.toLowerCase()) {
-            case "/board":
-              BoardMenu.main(args, memberList);
+            case "/member":
+              MemberMenu.main(args, memberList);
               break;
             case "/pay":
-              PayMenu.main(args, memberList);
+              PayMenu.main(args, memberList, payList);
+              break;
+            case "/board":
+              BoardMenu.main(args, memberList, boardList);
               break;
             case "/trainer":
-              TrainerMenu.main(args, memberList);
+              TrainerMenu.main(args, memberList, trainerList);
               break;
             case "history":
               printCommandHistory(commandStack.iterator());
@@ -75,14 +70,8 @@ public class App {
               System.out.println("득근하세요!! Ten Reps!!!");
               break loop;
             default:
-              Command commandHandler = commandMap.get(command);
-
-              if (commandHandler == null) {
-                System.out.println("실행할 수 없는 명령어입니다.");
-                System.out.println();
-              } else {
-                commandHandler.service();
-              }
+              System.out.println("실행할 수 없는 명령어입니다.");
+              System.out.println();
           }
         } catch (Exception e) {
           System.out.println("---------------------------------------------------------");
