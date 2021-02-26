@@ -1,8 +1,10 @@
 package com.cat.gym.domain;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Board {
+public class Board implements Serializable {
+  private static final long serialVersionUID = 1L;
   private int no;
   private String title;
   private String id;
@@ -24,7 +26,7 @@ public class Board {
     result = prime * result + viewCount;
     return result;
   }
-  
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj)
@@ -62,7 +64,7 @@ public class Board {
       return false;
     return true;
   }
-  
+
   public int getNo() {
     return no;
   }

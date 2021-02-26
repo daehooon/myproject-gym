@@ -45,9 +45,9 @@ public class PayAddHandler extends AbstractPayHandler {
       p.setStartDate(Prompt.inputDate("시작일(yyyy-MM-dd): "));
 
       if (p.getJoin().equalsIgnoreCase("o") ||
-          p.getJoin().equalsIgnoreCase("x") ||
+          p.getJoin().equalsIgnoreCase("x") &&
           p.getRental().equalsIgnoreCase("o") ||
-          p.getRental().equalsIgnoreCase("x") ||
+          p.getRental().equalsIgnoreCase("x") &&
           p.getLocker().equalsIgnoreCase("o") ||
           p.getLocker().equalsIgnoreCase("x")) {
         payList.add(p);
@@ -58,6 +58,7 @@ public class PayAddHandler extends AbstractPayHandler {
             + "올바른 값이 입력되지 않았습니다.");
         System.out.println("다시 입력해 주세요.");
         System.out.println();
+        continue;
       }
     }
     System.out.println();

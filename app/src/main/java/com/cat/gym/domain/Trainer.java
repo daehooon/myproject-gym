@@ -1,8 +1,10 @@
 package com.cat.gym.domain;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Trainer {
+public class Trainer implements Serializable {
+  private static final long serialVersionUID = 1L;
   private int no;
   private String bag;
   private String photo;
@@ -26,7 +28,7 @@ public class Trainer {
     result = prime * result + ((photo == null) ? 0 : photo.hashCode());
     return result;
   }
-  
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj)
@@ -75,7 +77,7 @@ public class Trainer {
       return false;
     return true;
   }
-  
+
   public int getNo() {
     return no;
   }

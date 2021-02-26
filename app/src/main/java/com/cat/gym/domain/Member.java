@@ -1,8 +1,10 @@
 package com.cat.gym.domain;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Member {
+public class Member implements Serializable {
+  private static final long serialVersionUID = 1L;
   private String name;
   private String phoneNumber;
   private String residence;
@@ -22,7 +24,7 @@ public class Member {
     result = prime * result + ((residence == null) ? 0 : residence.hashCode());
     return result;
   }
-  
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj)
@@ -64,7 +66,7 @@ public class Member {
       return false;
     return true;
   }
-  
+
   public String getName() {
     return name;
   }
