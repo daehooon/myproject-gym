@@ -1,16 +1,50 @@
 package com.cat.gym.domain;
 
-import java.io.Serializable;
 import java.sql.Date;
+import com.cat.util.CsvObject;
 
-public class Member implements Serializable {
-  private static final long serialVersionUID = 1L;
+public class Member implements CsvObject {
   private String name;
   private String phoneNumber;
   private String residence;
   private String id;
   private String password;
   private Date apply;
+
+  public Member() {}
+
+  public Member(String csv) {
+    String[] fields = csv.split(",");
+    this.setName(fields[0]);
+    this.setPhoneNumber(fields[1]);
+    this.setResidence(fields[2]);
+    this.setId(fields[3]);
+    this.setPassword(fields[4]);
+    this.setApply(Date.valueOf(fields[5]));
+  }
+
+  @Override
+  public String toCsvString() {
+    return String.format("%s,%s,%s,%s,%s,%s", 
+        this.getName(), 
+        this.getPhoneNumber(), 
+        this.getResidence(), 
+        this.getId(), 
+        this.getPassword(), 
+        this.getApply());
+  }
+
+  public static Member valueOfCsv(String csv) {
+    String[] fields = csv.split(",");
+    Member m = new Member();
+    m.setName(fields[0]);
+    m.setPhoneNumber(fields[1]);
+    m.setResidence(fields[2]);
+    m.setId(fields[3]);
+    m.setPassword(fields[4]);
+    m.setApply(Date.valueOf(fields[5]));
+    return m;
+  }
 
   @Override
   public int hashCode() {

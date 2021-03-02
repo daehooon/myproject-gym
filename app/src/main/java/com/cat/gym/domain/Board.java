@@ -1,10 +1,9 @@
 package com.cat.gym.domain;
 
-import java.io.Serializable;
 import java.sql.Date;
+import com.cat.util.CsvObject;
 
-public class Board implements Serializable {
-  private static final long serialVersionUID = 1L;
+public class Board implements CsvObject {
   private int no;
   private String title;
   private String id;
@@ -12,6 +11,41 @@ public class Board implements Serializable {
   private int viewCount;
   private String content;
   private int like;
+
+  public Board() {}
+
+  public Board(String csv) {
+    String[] fields = csv.split(",");
+    this.setNo(Integer.parseInt(fields[0]));
+    this.setTitle(fields[1]);
+    this.setId(fields[2]);
+    this.setRegisteredDate(Date.valueOf(fields[3]));
+    this.setViewCount(Integer.parseInt(fields[4]));
+    this.setContent(fields[5]);
+  }
+
+  @Override
+  public String toCsvString() {
+    return String.format("%d,%s,%s,%s,%d,%s", 
+        this.getNo(), 
+        this.getTitle(), 
+        this.getId(), 
+        this.getRegisteredDate().toString(), 
+        this.getViewCount(), 
+        this.getContent());
+  }
+
+  public static Board valueOfCsv(String csv) {
+    String[] fields = csv.split(",");
+    Board b = new Board();
+    b.setNo(Integer.parseInt(fields[0]));
+    b.setTitle(fields[1]);
+    b.setId(fields[2]);
+    b.setRegisteredDate(Date.valueOf(fields[3]));
+    b.setViewCount(Integer.parseInt(fields[4]));
+    b.setContent(fields[5]);
+    return b;
+  }
 
   @Override
   public int hashCode() {

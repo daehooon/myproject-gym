@@ -1,15 +1,11 @@
 package com.cat.gym;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -41,6 +37,8 @@ import com.cat.gym.handler.TrainerDeleteHandler;
 import com.cat.gym.handler.TrainerDetailHandler;
 import com.cat.gym.handler.TrainerListHandler;
 import com.cat.gym.handler.TrainerUpdateHandler;
+import com.cat.util.CsvObject;
+import com.cat.util.ObjectFactory;
 import com.cat.util.Prompt;
 
 public class App {
@@ -48,22 +46,22 @@ public class App {
   static ArrayDeque<String> commandStack = new ArrayDeque<>();
   static LinkedList<String> commandQueue = new LinkedList<>();
 
-  static List<Member> memberList;
-  static List<Pay> payList;
-  static List<Board> boardList;
-  static List<Trainer> trainerList;
+  static LinkedList<Member> memberList = new LinkedList<>();
+  static LinkedList<Pay> payList = new LinkedList<>();
+  static LinkedList<Board> boardList = new LinkedList<>();
+  static LinkedList<Trainer> trainerList = new LinkedList<>();
 
-  static File memberFile = new File("members.data");
-  static File payFile = new File("pays.data");
-  static File boardFile = new File("boards.data");
-  static File trainerFile = new File("trainers.data");
+  static File memberFile = new File("members.csv");
+  static File payFile = new File("pays.csv");
+  static File boardFile = new File("boards.csv");
+  static File trainerFile = new File("trainers.csv");
 
   public static void main(String[] args) {
 
-    memberList = loadObjects(memberFile, Member.class);
-    payList = loadObjects(payFile, Pay.class);
-    boardList = loadObjects(boardFile, Board.class);
-    trainerList = loadObjects(trainerFile, Trainer.class);
+    loadObjects(memberFile, memberList, Member::new);
+    loadObjects(payFile, payList, Pay::new);
+    loadObjects(boardFile, boardList, Board::new);
+    loadObjects(trainerFile, trainerList, Trainer::new);
 
     HashMap<String,Command> commandMap = new HashMap<>();
 
@@ -167,27 +165,24 @@ public class App {
     }
   }
 
-  @SuppressWarnings("unchecked")
-  static <T extends Serializable> List<T> loadObjects(File file, Class<T> dataType) {
-    try (ObjectInputStream in = new ObjectInputStream(
-        new BufferedInputStream(
-            new FileInputStream(file)))) {
-
+  static <T> void loadObjects(File file, List<T> list, ObjectFactory<T> objFactory) {
+    try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+      String csvStr = null;
+      while ((csvStr = in.readLine()) != null) {
+        list.add(objFactory.create(csvStr));
+      }
       System.out.printf("%s 로딩 완료\n", file.getName());
-      return (List<T>) in.readObject();
 
     } catch (Exception e) {
       System.out.printf("%s 로딩중 오류 발생\n", file.getName());
-      return new ArrayList<T>();
     }
   }
 
-  static <T extends Serializable> void saveObjects(File file, List<T> dataList) {
-    try (ObjectOutputStream out = new ObjectOutputStream(
-        new BufferedOutputStream(
-            new FileOutputStream(file)))) {
-
-      out.writeObject(dataList);
+  static <T extends CsvObject> void saveObjects(File file, List<T> list) {
+    try (BufferedWriter out = new BufferedWriter(new FileWriter(file))) {
+      for (CsvObject csvObj : list) {
+        out.write(csvObj.toCsvString() + "\n");
+      }
       System.out.printf("%s 저장 완료\n", file.getName());
 
     } catch (Exception e) {

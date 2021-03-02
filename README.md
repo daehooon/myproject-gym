@@ -28,15 +28,21 @@
         1. 이제 home 메뉴에서 모든 명령어를 입력합니다.
            (기존 메뉴 삭제 및 인터페이스 보완)
         2. File I/O 기능 추가
+
+    21.03.02
+        1. FileIn(Out)putStream에서 FileReader(Writer)로 기능 변경
            
 # Cat Gym Patch List
     1. 공백 문자 및 잘못된 값 입력 금지 기능
         pay - add, AbstractPayHandler 수정 요망
-        
-    2. 중복 결제 방지
+
+    2. 트레이너 등록할 때 pt회원 비워두면 저장 안되고 로딩중 오류 발생 수정하기
+       (임시: 0번 유령회원 기입)
+       
+    3. 중복 결제 방지
        중복값 거르기 기능 (HashSet)
 
-    3. 각 data file을 모아 폴더 한 곳에서 처리하기
+    4. 각 data file을 모아 폴더 한 곳에서 처리하기
 
     게시글 작성시 글 번호 순서대로 자동 저장 기능
     회원 비밀번호 활용

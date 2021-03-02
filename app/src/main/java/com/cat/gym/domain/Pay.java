@@ -1,10 +1,9 @@
 package com.cat.gym.domain;
 
-import java.io.Serializable;
 import java.sql.Date;
+import com.cat.util.CsvObject;
 
-public class Pay implements Serializable {
-  private static final long serialVersionUID = 1L;
+public class Pay implements CsvObject {
   private String id;
   private int select;
   private String join;
@@ -13,6 +12,45 @@ public class Pay implements Serializable {
   private String card;
   private String history;
   private Date startDate;
+
+  public Pay() {}
+
+  public Pay(String csv) {
+    String[] fields = csv.split(",");
+    this.setId(fields[0]);
+    this.setSelect(Integer.parseInt(fields[1]));
+    this.setJoin(fields[2]);
+    this.setRental(fields[3]);
+    this.setLocker(fields[4]);
+    //    this.setCard(fields[]);
+    //    this.setHistory(fields[]);
+    this.setStartDate(Date.valueOf(fields[5]));
+  }
+
+  @Override
+  public String toCsvString() {
+    return String.format("%s,%d,%s,%s,%s,%s", 
+        this.getId(), 
+        this.getSelect(), 
+        this.getJoin(), 
+        this.getRental(), 
+        this.getLocker(), 
+        this.getStartDate());
+  }
+
+  public static Pay valueOfCsv(String csv) {
+    String[] fields = csv.split(",");
+    Pay p = new Pay();
+    p.setId(fields[0]);
+    p.setSelect(Integer.parseInt(fields[1]));
+    p.setJoin(fields[2]);
+    p.setRental(fields[3]);
+    p.setLocker(fields[4]);
+    //    p.setCard(fields[]);
+    //    p.setHistory(fields[]);
+    p.setStartDate(Date.valueOf(fields[5]));
+    return p;
+  }
 
   @Override
   public int hashCode() {

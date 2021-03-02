@@ -1,10 +1,9 @@
 package com.cat.gym.domain;
 
-import java.io.Serializable;
 import java.sql.Date;
+import com.cat.util.CsvObject;
 
-public class Trainer implements Serializable {
-  private static final long serialVersionUID = 1L;
+public class Trainer implements CsvObject {
   private int no;
   private String bag;
   private String photo;
@@ -13,6 +12,47 @@ public class Trainer implements Serializable {
   private Date contractS;
   private Date contractE;
   private String members;
+
+  public Trainer() {}
+
+  public Trainer(String csv) {
+    String[] fields = csv.split(",");
+    this.setNo(Integer.parseInt(fields[0]));
+    this.setBag(fields[1]);
+    this.setPhoto(fields[2]);
+    this.setName(fields[3]);
+    this.setPhoneNumber(fields[4]);
+    this.setContractS(Date.valueOf(fields[5]));
+    this.setContractE(Date.valueOf(fields[6]));
+    this.setMembers(fields[7]);
+  }
+
+  @Override
+  public String toCsvString() {
+    return String.format("%d,%s,%s,%s,%s,%s,%s,%s", 
+        this.getNo(), 
+        this.getBag(), 
+        this.getPhoto(), 
+        this.getName(), 
+        this.getPhoneNumber(), 
+        this.getContractS(),
+        this.getContractE(),
+        this.getMembers());
+  }
+
+  public static Trainer valueOfCsv(String csv) {
+    String[] fields = csv.split(",");
+    Trainer t = new Trainer();
+    t.setNo(Integer.parseInt(fields[0]));
+    t.setBag(fields[1]);
+    t.setPhoto(fields[2]);
+    t.setName(fields[3]);
+    t.setPhoneNumber(fields[4]);
+    t.setContractS(Date.valueOf(fields[5]));
+    t.setContractE(Date.valueOf(fields[6]));
+    t.setMembers(fields[7]);
+    return t;
+  }
 
   @Override
   public int hashCode() {
