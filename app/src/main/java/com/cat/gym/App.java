@@ -5,11 +5,15 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import com.cat.context.ApplicationContextListener;
 import com.cat.gym.domain.Board;
 import com.cat.gym.domain.Member;
 import com.cat.gym.domain.Pay;
@@ -37,31 +41,53 @@ import com.cat.gym.handler.TrainerDeleteHandler;
 import com.cat.gym.handler.TrainerDetailHandler;
 import com.cat.gym.handler.TrainerListHandler;
 import com.cat.gym.handler.TrainerUpdateHandler;
+import com.cat.gym.listener.AppListener;
 import com.cat.util.CsvObject;
-import com.cat.util.ObjectFactory;
 import com.cat.util.Prompt;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class App {
 
-  static ArrayDeque<String> commandStack = new ArrayDeque<>();
-  static LinkedList<String> commandQueue = new LinkedList<>();
+  List<ApplicationContextListener> listeners = new ArrayList<>();
 
-  static LinkedList<Member> memberList = new LinkedList<>();
-  static LinkedList<Pay> payList = new LinkedList<>();
-  static LinkedList<Board> boardList = new LinkedList<>();
-  static LinkedList<Trainer> trainerList = new LinkedList<>();
+  ArrayDeque<String> commandStack = new ArrayDeque<>();
+  LinkedList<String> commandQueue = new LinkedList<>();
 
-  static File memberFile = new File("members.csv");
-  static File payFile = new File("pays.csv");
-  static File boardFile = new File("boards.csv");
-  static File trainerFile = new File("trainers.csv");
+  LinkedList<Member> memberList = new LinkedList<>();
+  LinkedList<Pay> payList = new LinkedList<>();
+  LinkedList<Board> boardList = new LinkedList<>();
+  LinkedList<Trainer> trainerList = new LinkedList<>();
+
+  File memberFile = new File("members.json");
+  File payFile = new File("pays.json");
+  File boardFile = new File("boards.json");
+  File trainerFile = new File("trainers.json");
 
   public static void main(String[] args) {
+    App app = new App();
 
-    loadObjects(memberFile, memberList, Member::new);
-    loadObjects(payFile, payList, Pay::new);
-    loadObjects(boardFile, boardList, Board::new);
-    loadObjects(trainerFile, trainerList, Trainer::new);
+    app.addApplicationContextListener(new AppListener());
+
+    app.service();
+  }
+
+  public void addApplicationContextListener(ApplicationContextListener listener) {
+    listeners.add(listener);
+  }
+
+  public void removeApplicationContextListener(ApplicationContextListener listener) {
+    listeners.remove(listener);
+  }
+
+  public void service() {
+
+    notifyOnServiceStarted();
+
+    loadObjects(memberFile, memberList, Member.class);
+    loadObjects(payFile, payList, Pay.class);
+    loadObjects(boardFile, boardList, Board.class);
+    loadObjects(trainerFile, trainerList, Trainer.class);
 
     HashMap<String,Command> commandMap = new HashMap<>();
 
@@ -148,9 +174,11 @@ public class App {
     saveObjects(trainerFile, trainerList);
 
     Prompt.close();
+
+    notifyOnServiceStopped();
   }
 
-  static void printCommandHistory(Iterator<String> iterator) {
+  private void printCommandHistory(Iterator<String> iterator) {
     int count = 0;
     while (iterator.hasNext()) {
       System.out.println(iterator.next());
@@ -165,12 +193,21 @@ public class App {
     }
   }
 
-  static <T> void loadObjects(File file, List<T> list, ObjectFactory<T> objFactory) {
+  private <T> void loadObjects(File file, List<T> list, Class<T> elementType) {
     try (BufferedReader in = new BufferedReader(new FileReader(file))) {
-      String csvStr = null;
-      while ((csvStr = in.readLine()) != null) {
-        list.add(objFactory.create(csvStr));
+      StringBuilder strBuilder = new StringBuilder();
+      String str = null;
+      while((str = in.readLine()) != null) {
+        strBuilder.append(str);
       }
+
+      Gson gson = new Gson();
+
+      Type collectionType = TypeToken.getParameterized(Collection.class, elementType).getType();
+      Collection<T> collection = gson.fromJson(strBuilder.toString(), collectionType);
+
+      list.addAll(collection);
+
       System.out.printf("%s 로딩 완료\n", file.getName());
 
     } catch (Exception e) {
@@ -178,11 +215,9 @@ public class App {
     }
   }
 
-  static <T extends CsvObject> void saveObjects(File file, List<T> list) {
+  private <T extends CsvObject> void saveObjects(File file, List<T> list) {
     try (BufferedWriter out = new BufferedWriter(new FileWriter(file))) {
-      for (CsvObject csvObj : list) {
-        out.write(csvObj.toCsvString() + "\n");
-      }
+      out.write(new Gson().toJson(list));
       System.out.printf("%s 저장 완료\n", file.getName());
 
     } catch (Exception e) {

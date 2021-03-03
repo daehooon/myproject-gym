@@ -1,7 +1,7 @@
-# Code Review
+### Code Review
     Incompletion
 
-# Cat Gym Patch Note
+## Cat Gym Patch Note
     21.02.16
         1. 회원 등록 메뉴에서 사용자가 입력하지 않은 항목이 존재하면
            경고 문구 출력 후 다시 입력하도록 합니다.
@@ -32,7 +32,7 @@
     21.03.02
         1. FileIn(Out)putStream에서 FileReader(Writer)로 기능 변경
            
-# Cat Gym Patch List
+## Cat Gym Patch List
     1. 공백 문자 및 잘못된 값 입력 금지 기능
         pay - add, AbstractPayHandler 수정 요망
 
@@ -41,8 +41,6 @@
        
     3. 중복 결제 방지
        중복값 거르기 기능 (HashSet)
-
-    4. 각 data file을 모아 폴더 한 곳에서 처리하기
 
     게시글 작성시 글 번호 순서대로 자동 저장 기능
     회원 비밀번호 활용
@@ -59,7 +57,7 @@
 
     [내 정보]
         [루틴 메뉴 ...]
-            [웨이트 트레이닝 목록]
+            [웨이트 트레이닝 목록] <- select
                 등 - 풀업, 바벨로우, 랫풀다운, 시티드로우
                 이두 - 바벨컬, 덤벨컬(해머컬)
                 하체 - 스쿼트, 레그프레스, 레그컬, 레그익스텐션
