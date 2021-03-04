@@ -31,6 +31,10 @@
 
     21.03.02
         1. FileIn(Out)putStream에서 FileReader(Writer)로 기능 변경
+
+    21.03.04
+        1. CSV 저장 방식에서 Json 저장 방식으로 변경
+        2. Observer 방식과 Map 객체를 혼용하여 리펙터링
            
 ## Cat Gym Patch List
     1. 공백 문자 및 잘못된 값 입력 금지 기능

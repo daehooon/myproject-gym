@@ -1,1 +1,1 @@
-[]
+[{"id":"cat","select":0,"join":"x","rental":"x","locker":"x","startDate":"1월 1, 2021"},{"id":"dog","select":1,"join":"x","rental":"o","locker":"o","startDate":"2월 2, 2021"},{"id":"frog","select":2,"join":"o","rental":"o","locker":"o","startDate":"3월 3, 2021"},{"id":"cow","select":3,"join":"o","rental":"x","locker":"x","startDate":"4월 4, 2021"}]
