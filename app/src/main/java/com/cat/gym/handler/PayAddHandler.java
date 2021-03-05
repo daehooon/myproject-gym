@@ -36,7 +36,6 @@ public class PayAddHandler extends AbstractPayHandler {
           + "2: 6개월(150,000원)\n"
           + "3: 1년(240,000원)\n"
           + "> "));
-
       p.setJoin(Prompt.inputString("신규 회원 - 가입비 33,000원(O/X): "));
       p.setRental(Prompt.inputString("운동복 대여 - 월 1만원(O/X): "));
       p.setLocker(Prompt.inputString("개인 락커 예약 - 월 1만원(O/X): "));
@@ -44,21 +43,18 @@ public class PayAddHandler extends AbstractPayHandler {
       //    p.setHistory(Prompt.inputString("결재 내역: "));
       p.setStartDate(Prompt.inputDate("시작일(yyyy-MM-dd): "));
 
-      if (p.getJoin().equalsIgnoreCase("o") ||
-          p.getJoin().equalsIgnoreCase("x") &&
-          p.getRental().equalsIgnoreCase("o") ||
-          p.getRental().equalsIgnoreCase("x") &&
-          p.getLocker().equalsIgnoreCase("o") ||
-          p.getLocker().equalsIgnoreCase("x")) {
-        payList.add(p);
-        break;      
-      } else {
+      if (!p.getJoin().equalsIgnoreCase("o") && !p.getJoin().equalsIgnoreCase("x")
+          || !p.getRental().equalsIgnoreCase("o") && !p.getRental().equalsIgnoreCase("x")
+          || !p.getLocker().equalsIgnoreCase("o") && !p.getLocker().equalsIgnoreCase("x")) {
         System.out.println();
         System.out.println("모든 항목에 정보를 입력하지 않았거나 "
             + "올바른 값이 입력되지 않았습니다.");
         System.out.println("다시 입력해 주세요.");
         System.out.println();
         continue;
+      } else {
+        payList.add(p);
+        break;
       }
     }
     System.out.println();

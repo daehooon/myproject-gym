@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import com.cat.context.ApplicationContextListener;
@@ -74,7 +75,7 @@ public class FileListener implements ApplicationContextListener {
 
     } catch (Exception e) {
       System.out.printf("%s 로딩중 오류 발생\n", file.getName());
-      return null;
+      return new LinkedList<T>();
     }
   }
 

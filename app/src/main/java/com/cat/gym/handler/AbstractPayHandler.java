@@ -22,7 +22,7 @@ public abstract class AbstractPayHandler implements Command {
       case 3:
         return "1년(240,000원)";
       default:
-        return "올바른 값이 아닙니다. 다시 입력해 주세요.";
+        return null;
     }
   }
 
