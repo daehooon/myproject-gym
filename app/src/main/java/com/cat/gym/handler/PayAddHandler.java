@@ -39,8 +39,6 @@ public class PayAddHandler extends AbstractPayHandler {
       p.setJoin(Prompt.inputString("신규 회원 - 가입비 33,000원(O/X): "));
       p.setRental(Prompt.inputString("운동복 대여 - 월 1만원(O/X): "));
       p.setLocker(Prompt.inputString("개인 락커 예약 - 월 1만원(O/X): "));
-      //    p.setCard(Prompt.inputString("카드 정보: "));
-      //    p.setHistory(Prompt.inputString("결재 내역: "));
       p.setStartDate(Prompt.inputDate("시작일(yyyy-MM-dd): "));
 
       if (!p.getJoin().equalsIgnoreCase("o") && !p.getJoin().equalsIgnoreCase("x")

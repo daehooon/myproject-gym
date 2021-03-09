@@ -29,8 +29,6 @@ public class PayDetailHandler extends AbstractPayHandler {
     System.out.printf("신규 회원: %s\n", pay.getJoin());
     System.out.printf("운동복 대여: %s\n", pay.getRental());
     System.out.printf("개인 락커 예약: %s\n", pay.getLocker());
-    //    System.out.printf("카드 정보: %s\n", pay.getCard());
-    //    System.out.printf("결제 내역: %s\n", pay.getHistory());
     System.out.printf("시작일: %s\n", pay.getStartDate());
     System.out.println();
   }
