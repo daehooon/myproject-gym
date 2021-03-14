@@ -1,7 +1,7 @@
 # Cat Gym
 
 ### Code Review
-    Incompletion
+    Incompletion.
 
 ## Patch Note
     21.02.16
