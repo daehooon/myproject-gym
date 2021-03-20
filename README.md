@@ -1,7 +1,10 @@
 # Cat Gym
 
-### Code Review
-    Incompletion
+### Notice
+    ● DBMS 서버 구축 중입니다.
+
+## Patch List
+    ● 중복 값 거르기(DBMS - pk)
 
 ## Patch Note
     21.02.16
@@ -46,8 +49,3 @@
 
     21.03.18
         ● 트레이너 등록 번호, 회원 번호, 글 번호 순서대로 자동 부여
-        
-## Patch List
-    ● 중복 값 거르기(HashSet, DBMS - pk key)
-    ● 회원 비밀번호 활용
-    ● 회원 수 집계
