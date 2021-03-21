@@ -52,11 +52,11 @@ public class MemberUpdateHandler extends AbstractMemberHandler {
           member.setResidence(residence);
           member.setId(id);
           member.setPassword(password);
-          System.out.println("정보를 변경하였습니다.");
+          System.out.println("회원 정보를 변경하였습니다.");
           System.out.println();
 
         } else {
-          System.out.println("정보 변경을 취소하였습니다.");
+          System.out.println("회원 정보 변경을 취소하였습니다.");
           System.out.println();
         }
       }
