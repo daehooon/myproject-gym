@@ -57,11 +57,11 @@ public class TrainerUpdateHandler extends AbstractTrainerHandler {
           trainer.setPhoneNumber(phoneNumber);
           trainer.setContractE(contractE);
           trainer.setMembers(members);
-          System.out.println("정보를 변경하였습니다.");
+          System.out.println("트레이너 정보를 변경하였습니다.");
           System.out.println();
 
         } else {
-          System.out.println("정보 변경을 취소하였습니다.");
+          System.out.println("트레이너 정보 변경을 취소하였습니다.");
           System.out.println();
         }
       }
