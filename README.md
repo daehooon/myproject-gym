@@ -4,7 +4,6 @@
     ● DBMS 서버 구축 중입니다.
 
 ## Patch List
-    ● 중복 값 거르기(DBMS - pk)
 
 ## Patch Note
     21.02.16
